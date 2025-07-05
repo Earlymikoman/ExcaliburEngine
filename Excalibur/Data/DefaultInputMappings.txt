@@ -1,0 +1,13 @@
+32 : Jump
+
+87 : Up
+38 : Up
+
+65 : Left
+37 : Left
+
+83 : Down
+40 : Down
+
+68 : Right
+39 : Right

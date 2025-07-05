@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{74cde58b-2cf0-4913-b042-0ed985874a86}</ProjectGuid>
+    <RootNamespace>ExcaliburWindows</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <StringPooling>true</StringPooling>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <StringPooling>true</StringPooling>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <StringPooling>true</StringPooling>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <StringPooling>true</StringPooling>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Core\Component\Physics.h" />
+    <ClInclude Include="Source\Core\Component\Sprite.h" />
+    <ClInclude Include="Source\Core\Enums\Direction.h" />
+    <ClInclude Include="Source\Core\Enums\DrawMode.h" />
+    <ClInclude Include="Source\Core\Enums\EnumMappings.h" />
+    <ClInclude Include="Source\Core\Enums\InputType.h" />
+    <ClInclude Include="Source\Core\Enums\MeshMode.h" />
+    <ClInclude Include="Source\Core\Enums\MessageTag.h" />
+    <ClInclude Include="Source\Core\Enums\Stub.h" />
+    <ClInclude Include="Source\Core\Enums\TypeEnum.h" />
+    <ClInclude Include="Source\Core\Enums\UpdateLayer.h" />
+    <ClInclude Include="Source\Core\LoadFunctions.h" />
+    <ClInclude Include="Source\Core\Mesh.h" />
+    <ClInclude Include="Source\Core\ResourceLibrary.h" />
+    <ClInclude Include="Source\Core\SaveFunctions.h" />
+    <ClInclude Include="Source\Core\Texture.h" />
+    <ClInclude Include="Source\Core\ValidationPointer.h" />
+    <ClInclude Include="Source\DirectX\DirectXGraphics.h" />
+    <ClInclude Include="ExcaliburWindows.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Source\Core\Component\Component.h" />
+    <ClInclude Include="Source\Core\Component\ComponentID.h" />
+    <ClInclude Include="Source\Core\Component\Transform.h" />
+    <ClInclude Include="Source\Core\Engine.h" />
+    <ClInclude Include="Source\Core\framework.h" />
+    <ClInclude Include="Source\Core\InputSystem.h" />
+    <ClInclude Include="Source\Core\Jive.h" />
+    <ClInclude Include="Source\Core\Message.h" />
+    <ClInclude Include="Source\Core\MultiField.h" />
+    <ClInclude Include="Source\Core\Object.h" />
+    <ClInclude Include="Source\Core\Platform.h" />
+    <ClInclude Include="Source\Core\Resource.h" />
+    <ClInclude Include="Source\Core\System.h" />
+    <ClInclude Include="Source\Core\targetver.h" />
+    <ClInclude Include="Source\Core\Trace.h" />
+    <ClInclude Include="Source\Core\WindowsPlatform.h" />
+    <ClInclude Include="Source\DirectX\PShader.h" />
+    <ClInclude Include="Source\DirectX\PTexShader.h" />
+    <ClInclude Include="Source\DirectX\VShader.h" />
+    <ClInclude Include="Source\DirectX\WICTextureLoader11.h" />
+    <ClInclude Include="Source\Stub.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Core\Component\Component.cpp" />
+    <ClCompile Include="Source\Core\Component\ComponentID.cpp" />
+    <ClCompile Include="Source\Core\Component\Physics.cpp" />
+    <ClCompile Include="Source\Core\Component\Sprite.cpp" />
+    <ClCompile Include="Source\Core\Component\Transform.cpp" />
+    <ClCompile Include="Source\Core\ECS.cpp" />
+    <ClCompile Include="Source\Core\Engine.cpp" />
+    <ClCompile Include="Source\Core\Enums\Direction.cpp" />
+    <ClCompile Include="Source\Core\Enums\DrawMode.cpp" />
+    <ClCompile Include="Source\Core\Enums\EnumMappings.cpp" />
+    <ClCompile Include="Source\Core\Enums\InputType.cpp" />
+    <ClCompile Include="Source\Core\Enums\MeshMode.cpp" />
+    <ClCompile Include="Source\Core\Enums\MessageTag.cpp" />
+    <ClCompile Include="Source\Core\Enums\TypeEnum.cpp" />
+    <ClCompile Include="Source\Core\Enums\UpdateLayer.cpp" />
+    <ClCompile Include="Source\Core\InputSystem.cpp" />
+    <ClCompile Include="Source\Core\Jive.cpp" />
+    <ClCompile Include="Source\Core\LoadFunctions.cpp" />
+    <ClCompile Include="Source\Core\EngineMain.cpp" />
+    <ClCompile Include="Source\Core\Mesh.cpp" />
+    <ClCompile Include="Source\Core\Message.cpp" />
+    <ClCompile Include="Source\Core\MultiField.cpp" />
+    <ClCompile Include="Source\Core\Object.cpp" />
+    <ClCompile Include="Source\Core\Platform.cpp" />
+    <ClCompile Include="Source\Core\ResourceLibrary.cpp" />
+    <ClCompile Include="Source\Core\SampleWindowsApp.cpp" />
+    <ClCompile Include="Source\Core\SaveFunctions.cpp" />
+    <ClCompile Include="Source\Core\System.cpp" />
+    <ClCompile Include="Source\Core\Texture.cpp" />
+    <ClCompile Include="Source\Core\Trace.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ValidationPointer.cpp" />
+    <ClCompile Include="Source\Core\WindowsPlatform.cpp" />
+    <ClCompile Include="Source\DirectX\DirectXGraphics.cpp" />
+    <ClCompile Include="Source\DirectX\WICTextureLoader11.cpp" />
+    <ClCompile Include="Source\Stub.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ExcaliburWindows.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ExcaliburWindows.ico" />
+    <Image Include="small.ico" />
+    <Image Include="Source\Core\small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\DirectX\PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\DirectX\PixelShaderTex.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\DirectX\VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharedDependencies\SharedDependencies.vcxproj">
+      <Project>{5f3aa237-210f-44df-90b6-5e97dccef847}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

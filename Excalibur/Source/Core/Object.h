@@ -1,0 +1,122 @@
+/*********************************************************************
+ * @file   Object.h
+ * @brief  .
+ * 
+ * Project: Excalibur
+ * 
+ * @author Xander Boosinger (xboosinger@gmail.com)
+ * @date   April 2025
+ * 
+ *********************************************************************
+/*
+ *			*	/\
+ *			   / /	*
+ *		*	__/ /__
+ *		      /	  *
+ *			 /
+ */
+
+#pragma once
+
+#include "Component/Transform.h"
+#include "ECS.h"
+//#include "Enums.h"
+#include "Jive.h"
+
+#include <vector> 
+#include <unordered_map> 
+
+class Component;
+class ComponentID;
+class Stream;
+
+using std::vector;
+using std::unordered_map;
+
+//class ComponentData
+//{
+//public:
+//
+//	ComponentData(Component* const& Component, ComponentAccessInfo const& AccessInfo);
+//
+//	Component*& GetComponent() { return component; }
+//
+//	ComponentAccessInfo& GetComponentAccessInfo() { return accessInfo; }
+//
+//private:
+//
+//	Component* component;
+//
+//	ComponentAccessInfo accessInfo;
+//
+//};
+
+class Object final
+{
+
+public:
+
+	Object();
+
+	//Object(Object const& rhs) = delete;
+
+	//Object(Object&& rhs) = default;
+
+	//Object& operator=(Object const& rhs) = delete;
+
+	void Clone(Object const& ObjectToCopy);
+
+	void Serialize(string* Output) const;
+
+	//void Save(string const& filepath) const;
+
+	void Load(Stream* openStream);
+
+public:
+
+	static Object* CreateObject();
+
+	Transform* const& GetTransform() const { return transform; }
+
+	std::vector<Object*> const& GetChildren() const;
+	
+	std::vector<ComponentID*> const& GetComponents() const;
+
+	template<typename T>
+	T* AddComponent(T const& ComponentToAdd, UpdateLayer Layer = UpdateLayer::SLOWEST)
+	{
+		ECS<T>* componentSystemInstance = ECS<T>::GetInstance();
+
+		ComponentAccessInfo accessInfo = componentSystemInstance->AddComponent(ComponentToAdd, Layer);
+
+		//T* componentPointer = componentSystemInstance->GetComponent(accessInfo);
+		accessInfo.GetPointer()->SetParent(this);
+
+		components.insert({ componentSystemInstance, accessInfo});
+
+		return (T*)accessInfo.GetPointer();
+	}
+
+	template<typename T>
+	T* GetComponent()
+	{
+		assert(components.find(ECS<T>::GetInstance()) && "Couldn't Find Component in Object.GetComponent().");
+		return components.find(ECS<T>::GetInstance());
+	}
+
+	void AddChild(Object* const& ObjectToAdd) { children.push_back(ObjectToAdd); ObjectToAdd->SetParent(this); }
+
+	void SetParent(Object* const& Parent) { parent = Parent; }
+
+private:
+
+	Object(vector<Object*> const& Children, unordered_map<System*, ComponentAccessInfo> const& Components);
+
+	Object* parent;
+
+	Transform* transform;
+
+	vector<Object*> children;
+	unordered_map<System*, ComponentAccessInfo> components;
+
+};

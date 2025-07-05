@@ -1,0 +1,56 @@
+/*********************************************************************
+ * @file   Transform.h
+ * @brief  .
+ * 
+ * Project: Excalibur
+ * 
+ * @author Xander Boosinger (xboosinger@gmail.com)
+ * @date   April 2025
+ * 
+ *********************************************************************
+/*
+ *			*	/\
+ *			   / /	*
+ *		*	__/ /__
+ *		      /	  *
+ *			 /
+ */
+
+#pragma once
+
+#include "Component.h"
+#include "../../../../SharedDependencies/Source/Vector.h"
+
+class Stream;
+
+#pragma region Pre-Build Component Read Area
+class Transform : public ComponentWithType<cTransform>
+{
+public:
+
+	void Serialize(string* Output) const;
+
+	//void Save(string const& filepath) const;
+
+	void Load(Stream* openStream);
+
+	void Update(double& dt) { dt; }
+
+	void Render() {}
+
+	Vector<3> const& GetPosition() const { return position; }
+
+	Vector<3> const& GetRotation() const { return rotation; }
+
+	Vector<3> const& GetScale() const { return scale; }
+
+private:
+
+	Vector<3> position;
+
+	Vector<3> rotation;
+
+	Vector<3> scale;
+
+};
+#pragma endregion Pre-Build Component Read Area
