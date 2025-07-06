@@ -50,6 +50,8 @@ public:
 
 	void Clear();
 
+	void ShiftSpot(int Steps);
+
 	template<typename T>
 	char ReadType(T* Output)
 	{
@@ -66,6 +68,8 @@ public:
 
 		return 1;
 	}
+
+	string GetName() const { return filename; }
 
 #ifdef _DEBUG
 	auto const& IsOpen() const { return open; }

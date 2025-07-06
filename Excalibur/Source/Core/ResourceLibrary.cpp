@@ -19,20 +19,36 @@
 #include "ResourceLibrary.h"
 
 #include "Engine.h"
+#include "../../../SharedDependencies/Source/Stream.h"
+#include "Texture.h"
 
 #define MESHES_PATH "Data/Meshes/"
-#define TEXTURES_PATH "Assets/Textures/"
+
+template<typename Resource>
+vector<Resource*> ResourceLibrary<Resource>::resources = vector<Resource*>();
 
 template<>
 static Texture* ResourceLibrary<Texture>::LoadResource(string const& Name)
 {
-	return Engine::LoadTexture(MESHES_PATH + Name);
+	auto newResource = Engine::LoadTexture(Name);
+
+	Add(newResource);
+
+	return newResource;
 }
 
 template<>
 static Mesh* ResourceLibrary<Mesh>::LoadResource(string const& Name)
 {
-	Name;
-	//return Engine::LoadTexture(MESHES_PATH + Name);
-	return nullptr;
+	Stream newStream = Stream(MESHES_PATH + Name);
+
+	Mesh* newMesh = new Mesh(Name);
+
+	newMesh->Load(&newStream);
+
+	newStream.Close();
+
+	Add(newMesh);
+
+	return newMesh;
 }

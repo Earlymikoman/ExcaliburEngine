@@ -18,6 +18,14 @@
 
 #include "Mesh.h"
 
+Mesh::Mesh(string const& Name)
+	: name(Name)
+	, vertexList(vector<VertexData>())
+	, meshType(TRIANGLELIST)
+{
+
+}
+
 Mesh::Mesh(string const& Name, vector<VertexData> const& Vertices, MeshMode const& MeshType)
 	: name(Name)
 	, vertexList(Vertices)

@@ -188,9 +188,9 @@ Object* Engine::AddObject(Object const& object)
 //	return EngineGraphicsEngine::Load
 //}
 //
-Texture* Engine::LoadTexture(string const& fileName)
+Texture* Engine::LoadTexture(string const& Name)
 {
-	return EngineGraphicsEngine::LoadTexture(fileName);
+	return EngineGraphicsEngine::LoadTexture(Name);
 }
 
 #pragma endregion

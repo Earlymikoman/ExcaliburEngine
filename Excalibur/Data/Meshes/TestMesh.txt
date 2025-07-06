@@ -1,7 +1,7 @@
 Mesh:
-	Name: TestMesh
+	Name: TestMesh.txt
 	Mesh Type: MeshMode::TRIANGLELIST
-	Vertexes:
+	Vertexes: 6:
 		Vertex:
 			Position: [-0.500000|-0.500000]
 			Color: [0.500000|0.600000|0.900000|1.000000]

@@ -7,6 +7,7 @@
 #include "../Core/Mesh.h"
 #include "../Core/Texture.h"
 #include "../../../SharedDependencies/Source/Vector.h"
+#include "../../../SharedDependencies/Source/CustomStringFunctions.h"
 //#include "../Core/Enums.h"
 
 // *** Object definitions *************************************************************************
@@ -617,12 +618,14 @@ void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, flo
     *worldY = transformedPos.y;
 }
 
-::Texture* DirectXData::LoadTexture(string const& fileName)
+::Texture* DirectXData::LoadTexture(string const& Name)
 {
 	HRESULT hr;
 
 	// Create a temporary variable to store the resource pointer
 	ID3D11Resource* temp;
+
+	string fileName = string(TEXTURES_PATH) + Name;
 
 	// Create the texture using the WIC texture loader
 	hr = DirectX::CreateWICTextureFromFile(
@@ -641,7 +644,7 @@ void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, flo
 	// Save the texture in the texture resource variable
 	//Texture = (ID3D11Texture2D*)temp;
 
-	return new ::Texture(fileName, temp, TexResourceView);
+	return new ::Texture(Name, temp, TexResourceView);
 }
 
 void DirectXData::SetTexture(::Texture const* texture)

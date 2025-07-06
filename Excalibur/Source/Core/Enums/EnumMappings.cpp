@@ -41,7 +41,7 @@ static unordered_map EnumMap = unordered_map<string, int>
 
 #pragma endregion
 
-unsigned int GetEnum(string const& EnumName)
+unsigned int GetEnumValue(string const& EnumName)
 {
 	//assert(EnumMap.find(EnumName));
 

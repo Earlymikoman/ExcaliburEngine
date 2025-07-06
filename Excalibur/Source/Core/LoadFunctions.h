@@ -20,5 +20,8 @@
 
 class Stream;
 class Object;
+struct VertexData;
 
 void LoadComponent(Object* Output, Stream* openStream);
+
+void LoadVertexData(Stream* openStream, VertexData* Object);

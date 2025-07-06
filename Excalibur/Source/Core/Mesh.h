@@ -33,6 +33,8 @@ class Mesh
 {
 public:
 
+	Mesh(string const& Name);
+
 	Mesh(string const& Name, vector<VertexData> const& Vertices, MeshMode const& MeshType = TRIANGLELIST);
 
 	string const& GetName() const { return name; }

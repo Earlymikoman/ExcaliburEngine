@@ -20,6 +20,8 @@
 
 #include <string>
 
+#define TEXTURES_PATH "Assets/Textures/"
+
 using std::string;
 
 struct ID3D11Resource;
@@ -34,6 +36,8 @@ public:
 	ID3D11Resource* const& GetResource() const { return resource; }
 
 	ID3D11ShaderResourceView* const& GetResourceView() const { return resourceView; }
+
+	string const& GetName() const { return fileName; }
 
 private:
 

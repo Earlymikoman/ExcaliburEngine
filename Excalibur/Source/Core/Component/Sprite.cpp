@@ -23,6 +23,14 @@
 #include "Transform.h"
 #include "../../../../SharedDependencies/Source/Vector.h"
 
+Sprite::Sprite(unsigned int const& FrameIndex, float const& Alpha, Texture const* const& Texture, Mesh const* const& Mesh)
+	: frameIndex(FrameIndex)
+	, alpha(Alpha)
+	, texture(Texture)
+	, mesh(Mesh)
+{
+}
+
 void Sprite::Render()
 {
 	Transform* transform = parent->GetTransform();

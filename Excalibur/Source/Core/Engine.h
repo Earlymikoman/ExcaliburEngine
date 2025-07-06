@@ -77,7 +77,7 @@ public:
 	//void SetPlatform(Platform* Platform) { platform = Platform; }
 
 	//static Mesh* LoadMesh(string const& Name);
-	static Texture* LoadTexture(string const& fileName);
+	static Texture* LoadTexture(string const& Name);
 
 	static void Draw(Mesh const* MeshToDraw, DrawMode const& Mode);
 

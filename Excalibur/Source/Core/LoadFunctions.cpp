@@ -31,6 +31,8 @@
 #include "Engine.h"
 #include "Mesh.h"
 #include "../DirectX/DirectXGraphics.h"
+#include "../../../SharedDependencies/Source/CustomStringFunctions.h"
+#include "ResourceLibrary.h"
 
 #include <string>
 #include <unordered_map>
@@ -48,35 +50,64 @@ void Load(Object* Output, Stream* openStream, UpdateLayer const& layer)
 
 void LoadVertexData(Stream* openStream, VertexData* Object)
 {
-	openStream;
-	Object;
+	string buffer;
+	vector<string> splitBuffer;
+	string garbage;
 
-	//string buffer;
-	//string garbage;
+	openStream->ReadToken(&garbage);
 
-	////openStream->ReadToken
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	SplitString(&splitBuffer, buffer, vector<string>{"[", "|", "]"});
+	for (int i = 0; i < _countof(Object->Position); ++i)
+	{
+		Object->Position[i] = std::stof(splitBuffer[i]);
+	}
+	splitBuffer.clear();
+	
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	SplitString(&splitBuffer, buffer, vector<string>{"[", "|", "]"});
+	for (int i = 0; i < _countof(Object->Color); ++i)
+	{
+		Object->Color[i] = std::stof(splitBuffer[i]);
+	}
+	splitBuffer.clear();
 
-
-
-	//for (int i = 0; i < _countof(Object.Position); ++i)
-	//{
-	//	tempString.append(std::to_string(Object.Position[i]) + "|");
-	//}
-
-	//for (int i = 0; i < _countof(Object.Color); ++i)
-	//{
-	//	tempString.append(std::to_string(Object.Color[i]) + "|");
-	//}
-
-	//for (int i = 0; i < _countof(Object.TexCoord); ++i)
-	//{
-	//	tempString.append(std::to_string(Object.TexCoord[i]) + "|");
-	//}
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	SplitString(&splitBuffer, buffer, vector<string>{"[", "|", "]"});
+	for (int i = 0; i < _countof(Object->TexCoord); ++i)
+	{
+		Object->TexCoord[i] = std::stof(splitBuffer[i]);
+	}
+	splitBuffer.clear();
 }
 
 void Mesh::Load(Stream* openStream)
 {
-	openStream;
+	string buffer;
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	name = buffer;
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	meshType = (MeshMode)GetEnumValue(buffer);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	buffer.pop_back();
+	vertexList = vector<VertexData>(std::stoi(buffer));
+	for (int i = 0; i < std::stoi(buffer); ++i)
+	{
+		LoadVertexData(openStream, &vertexList[i]);
+	}
 }
 
 void Object::Load(Stream* openStream)
@@ -87,7 +118,7 @@ void Object::Load(Stream* openStream)
 	int iterationCount;
 	iterationCount;
 
-	openStream->ReadToken(&garbage);
+	//openStream->ReadToken(&garbage);
 	openStream->ReadToken(&garbage);
 
 	transform->Load(openStream);
@@ -118,15 +149,17 @@ void Object::Load(Stream* openStream)
 }
 void Transform::Load(Stream* openStream)
 {
-	string fieldName = string();
+	string garbage;
 
-	openStream->ReadToken(&fieldName);
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
 	openStream->ReadType(&position);
 
-	openStream->ReadToken(&fieldName);
+	openStream->ReadToken(&garbage);
 	openStream->ReadType(&rotation);
 
-	openStream->ReadToken(&fieldName);
+	openStream->ReadToken(&garbage);
 	openStream->ReadType(&scale);
 }
 void Physics::Load(Stream* openStream)
@@ -136,8 +169,27 @@ void Physics::Load(Stream* openStream)
 }
 void Sprite::Load(Stream* openStream)
 {
-	openStream;
-	string fieldName = string();
+	string buffer;
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	frameIndex = std::stoi(buffer);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	alpha = std::stof(buffer);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	texture = ResourceLibrary<Texture>::Get(buffer);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	mesh = ResourceLibrary<Mesh>::Get(buffer);
 }
 
 #pragma region Pre-Build Editing Area
@@ -158,7 +210,9 @@ void LoadComponent(Object* Output, Stream* openStream)
 
 	//openStream->ReadToken(&updateLayer);
 	openStream->ReadToken(&componentName);
+	openStream->ShiftSpot(-(int)componentName.length());
+
 	componentName.pop_back();
 
-	LoadingFunctionMap[componentName](Output, openStream, (UpdateLayer)GetEnum(updateLayer));
+	LoadingFunctionMap[componentName](Output, openStream, (UpdateLayer)GetEnumValue(updateLayer));
 }

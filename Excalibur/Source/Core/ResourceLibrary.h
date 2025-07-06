@@ -19,6 +19,7 @@
 #pragma once
 
 #include "Mesh.h"
+#include "Texture.h"
 
 #include <vector>
 #include <string>
@@ -37,6 +38,9 @@ private:
 	ResourceLibrary(ResourceLibrary const& rhs) = delete;
 
 	ResourceLibrary& operator=(ResourceLibrary const& rhs) = delete;
+
+	//Generally useless, but can be specialized in ResourceLibrary.cpp to allow for specialized loading of, in particular, meshes, textures, and sounds.
+	static Resource* LoadResource(string const& Name);
 
 public:
 
@@ -57,7 +61,7 @@ public:
 
 	static vector<Resource*> const& GetResources() { return resources; }
 
-	static Resource* const& Get(string const& Name)
+	static Resource const* Get(string const& Name)
 	{
 		for (int i = 0; i < resources.size(); ++i)
 		{
@@ -67,25 +71,14 @@ public:
 			}
 		}
 
-		//assert(0 && "Couldn't Find Resource in ResourceLibrary<Unknown>. Check ResourceLibrary<Unknown>.Get().");
-		return nullptr;
+		return LoadResource(Name);
 	}
 
 	static void Add(Resource* const& resource)
 	{
-		assert(Get(resource->GetName()) && "Attempted to add two resources of the same name in ResourceLibrary<Unknown>. Check ResourceLibrary<Unknown>.Add().");
+		//assert(Get(resource->GetName()) && "Attempted to add two resources of the same name in ResourceLibrary<Unknown>. Check ResourceLibrary<Unknown>.Add().");
 
 		resources.push_back(resource);
-	}
-
-	//Generally useless, but can be specialized in ResourceLibrary.cpp to allow for specialized loading of, in particular, meshes, textures, and sounds.
-	static Resource* LoadResource(string const& Name)
-	{
-		Resource* newResource = new Resource(Name);
-
-		Add(newResource);
-
-		return newResource;
 	}
 
 private:

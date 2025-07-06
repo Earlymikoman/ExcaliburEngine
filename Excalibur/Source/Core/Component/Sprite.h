@@ -31,6 +31,8 @@ public:
 
 	Sprite() = default;
 
+	Sprite(unsigned int const& FrameIndex, float const& Alpha, Texture const* const& Texture, Mesh const* const& Mesh);
+
 	void Serialize(string* Output) const;
 
 	void Load(Stream* openStream);

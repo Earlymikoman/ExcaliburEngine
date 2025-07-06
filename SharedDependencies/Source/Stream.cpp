@@ -113,3 +113,9 @@ void Stream::Clear()
 	// truncate on disk
 	std::filesystem::resize_file(filename, 0);
 }
+
+void Stream::ShiftSpot(int Steps)
+{
+	stream.seekp(Steps, std::ios::cur);
+	stream.seekg(stream.tellp());
+}

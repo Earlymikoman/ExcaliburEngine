@@ -1,0 +1,5 @@
+Sprite:
+	Frame Index: 0
+	Alpha: 1.000000
+	Texture: Milk.png
+	Mesh: TestMesh.txt

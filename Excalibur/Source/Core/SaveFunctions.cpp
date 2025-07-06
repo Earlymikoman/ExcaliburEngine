@@ -28,6 +28,7 @@
 #include "ECS.h"
 #include "../../../SharedDependencies/Source/CustomStringFunctions.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 void SerializeVertexData(string* Output, VertexData const& Object)
 {
@@ -73,9 +74,9 @@ void ::Mesh::Serialize(string* Output) const
 
 	tempString.append(Tab() + "Name: " + name + "\n");
 
-	tempString.append(Tab() + "Vertexes:\n");
-
 	tempString.append(Tab() + "Mesh Type: " + GetEnumName(meshType) + "\n");
+
+	tempString.append(Tab() + "Vertexes: " + std::to_string(vertexList.size()) + ":\n");
 
 	IncrementTab();
 
@@ -153,8 +154,20 @@ void Physics::Serialize(string* Output) const
 
 void Sprite::Serialize(string* Output) const
 {
-	Output;
-	string tempString = string("\n");
+	string& tempString = *Output;
+
+	tempString.append("Sprite:\n");
+	IncrementTab();
+
+	tempString.append(Tab() + "Frame Index: " + std::to_string(frameIndex) + "\n");
+	
+	tempString.append(Tab() + "Alpha: " + std::to_string(alpha) + "\n");
+
+	tempString.append(Tab() + "Texture: " + texture->GetName() + "\n");
+
+	tempString.append(Tab() + "Mesh: " + mesh->GetName() + "\n");
+
+	IncrementTab(-1);
 }
 
 void Save(string const& data, Stream* openStream)

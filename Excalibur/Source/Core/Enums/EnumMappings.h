@@ -22,4 +22,4 @@
 
 using std::string;
 
-unsigned int GetEnum(string const& EnumName);
+unsigned int GetEnumValue(string const& EnumName);

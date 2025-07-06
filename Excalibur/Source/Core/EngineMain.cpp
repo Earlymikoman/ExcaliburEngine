@@ -26,6 +26,7 @@
 #include "Message.h"
 #include "Jive.h"
 #include "Component/Physics.h"
+#include "Component/Sprite.h"
 
 #include <chrono>
 #include <omp.h>
@@ -36,10 +37,12 @@
 #pragma region Includes For Testing Only
 
 #include "SaveFunctions.h"
+#include "LoadFunctions.h"
 #include "../../../SharedDependencies/Source/Stream.h"
 #include "Object.h"
 #include "Mesh.h"
 #include "../DirectX/DirectXGraphics.h"
+#include "ResourceLibrary.h"
 
 #pragma endregion Includes For Testing Only
 
@@ -82,6 +85,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//Add Systems to the Engine here.
 	mainEngine->Add(ECS<Physics>::GetInstance());
+	mainEngine->Add(ECS<Sprite>::GetInstance());
 	//mainEngine->GetSourceObject()->AddComponent(Physics());
 
 	auto previousTime = std::chrono::high_resolution_clock::now();
@@ -93,27 +97,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-	::Stream newStream = ::Stream("Data/WriteTest.txt");
+	::Stream objectStream = ::Stream("Data/TestObject.txt");
+	::Stream spriteStream = ::Stream("Data/TestSprite.txt");
 	string bufferString;
 
-	Mesh testmesh = Mesh
-	(
-		"TestMesh"
-		, vector<VertexData>
-		{
-			VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-			, VertexData(-0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 0.0f)
-			, VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-			, VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-			, VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-			, VertexData(0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f)
-		}
-	);
+	//Sprite testSprite;
 
-	testmesh.Serialize(&bufferString);
+	//testSprite.Load(&spriteStream);
 
-	newStream.Close();
+	Object* testObject = Engine::AddObject(Object());
+	testObject->Load(&objectStream);
+	//testObject->AddComponent(testSprite);
+	//Transform* testTransform = testObject->GetTransform();
+	//testTransform->SetScale(Vector<3>(10.0f, 10.0f));
 
+	/*objectStream.Clear();
+	testObject->Serialize(&bufferString);
+	objectStream.Write(bufferString);*/
+
+	spriteStream.Close();
+	objectStream.Close();
+
+
+
+
+
+
+	
 	int a = 0;
 	++a;
 
