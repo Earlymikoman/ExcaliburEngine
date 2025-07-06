@@ -17,3 +17,8 @@
  */
 
 #include "Transform.h"
+
+void Transform::HandleMessage(Message* message)
+{
+	message;
+}

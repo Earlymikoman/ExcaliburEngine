@@ -26,6 +26,7 @@
 #include "Component/Transform.h"
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
+#include "Component/Button.h"
 #include "ECS.h"
 #include "Enums/EnumMappings.h"
 #include "Engine.h"
@@ -191,12 +192,24 @@ void Sprite::Load(Stream* openStream)
 	openStream->ReadToken(&buffer);
 	mesh = ResourceLibrary<Mesh>::Get(buffer);
 }
+void Button::Load(Stream* openStream)
+{
+	string buffer;
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	function = NamedFunction(buffer, FunctionLibrary::Get(buffer));
+}
 
 #pragma region Pre-Build Editing Area
 
 static unordered_map LoadingFunctionMap = unordered_map<string, void(*)(Object*, Stream*, const UpdateLayer&)>
 {
-	{ "Physics", &Load<Physics> }
+	{ "Button", &Load<Button> }
+	, { "Physics", &Load<Physics> }
 	, { "Sprite", &Load<Sprite> }
 	, { "Transform", &Load<Transform> }
 };

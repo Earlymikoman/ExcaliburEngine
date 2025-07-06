@@ -3,10 +3,12 @@ Object:
 		Position: [0.000000|0.000000|0.000000]
 		Rotation: [0.000000|0.000000|0.000000]
 		Scale: [100.000000|100.000000|0.000000]
-	Components: 1:
+	Components: 2:
 		Sprite:
 			Frame Index: 0
 			Alpha: 1.000000
-			Texture: Milk.png
+			Texture: Ball.png
 			Mesh: TestMesh.txt
+		Button:
+			Function: TestButtonFunction
 	Children: 0:

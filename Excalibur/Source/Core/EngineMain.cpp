@@ -27,6 +27,7 @@
 #include "Jive.h"
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
+#include "Component/Button.h"
 
 #include <chrono>
 #include <omp.h>
@@ -86,6 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Add Systems to the Engine here.
 	mainEngine->Add(ECS<Physics>::GetInstance());
 	mainEngine->Add(ECS<Sprite>::GetInstance());
+	mainEngine->Add(ECS<Button>::GetInstance());
 	//mainEngine->GetSourceObject()->AddComponent(Physics());
 
 	auto previousTime = std::chrono::high_resolution_clock::now();
@@ -98,24 +100,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 	::Stream objectStream = ::Stream("Data/TestObject.txt");
-	::Stream spriteStream = ::Stream("Data/TestSprite.txt");
+	//::Stream spriteStream = ::Stream("Data/TestSprite.txt");
 	string bufferString;
 
 	//Sprite testSprite;
 
 	//testSprite.Load(&spriteStream);
 
+	FunctionLibrary::LoadFunction("TestButtonFunction", []() {cout << "buttondown" << endl; });
+
 	Object* testObject = Engine::AddObject(Object());
 	testObject->Load(&objectStream);
-	//testObject->AddComponent(testSprite);
-	//Transform* testTransform = testObject->GetTransform();
-	//testTransform->SetScale(Vector<3>(10.0f, 10.0f));
 
-	/*objectStream.Clear();
+	objectStream.Clear();
 	testObject->Serialize(&bufferString);
-	objectStream.Write(bufferString);*/
+	objectStream.Write(bufferString);
 
-	spriteStream.Close();
+	//spriteStream.Close();
 	objectStream.Close();
 
 

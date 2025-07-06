@@ -22,6 +22,7 @@
 #include "../../../../SharedDependencies/Source/Vector.h"
 
 class Stream;
+class Message;
 
 #pragma region Pre-Build Component Read Area
 class Transform : public ComponentWithType<cTransform>
@@ -37,6 +38,8 @@ public:
 	void Update(double& dt) { dt; }
 
 	void Render() {}
+
+	void HandleMessage(Message* message);
 
 	Vector<3> const& GetPosition() const { return position; }
 

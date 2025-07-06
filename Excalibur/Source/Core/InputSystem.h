@@ -110,6 +110,8 @@ public:
 
 		inputs.push_back(Input(RIGHT, std::string("Right")));
 
+		inputs.push_back(Input(CLICK, std::string("Click")));
+
 
 
 		Stream dataStream = Stream("Data/DefaultInputMappings.txt");
@@ -194,6 +196,20 @@ public:
 	void KeyReleased(KeyType key)
 	{
 		Message* message = new Message(inputMappings[key]->GetType(), nullptr, new NamedMultiField(NamedField("InputState", (char)0)));
+
+		QueueMessage(message);
+	}
+
+	void MouseDown(KeyType key, Vector<3> const& mousePos)
+	{
+		Message* message = new Message(inputMappings[key]->GetType(), nullptr, new NamedMultiField(NamedField("InputState", (char)1), NamedField("MousePosition", mousePos)));
+
+		QueueMessage(message);
+	}
+
+	void MouseReleased(KeyType key, Vector<3> const& mousePos)
+	{
+		Message* message = new Message(inputMappings[key]->GetType(), nullptr, new NamedMultiField(NamedField("InputState", (char)0), NamedField("MousePosition", mousePos)));
 
 		QueueMessage(message);
 	}

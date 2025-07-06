@@ -52,6 +52,8 @@ public:
 
     static HINSTANCE GetAppInstance() { return mAppInstance; }
     static const char* GetWindowTitle() { return mWindowTitle; }
+	static unsigned int GetWindowWidth() { return mWindowWidth; }
+	static unsigned int GetWindowHeight() { return mWindowHeight; }
 
 private:
 

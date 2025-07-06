@@ -171,6 +171,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Component\Button.h" />
     <ClInclude Include="Source\Core\Component\Physics.h" />
     <ClInclude Include="Source\Core\Component\Sprite.h" />
     <ClInclude Include="Source\Core\Enums\Direction.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Source\Core\Enums\Stub.h" />
     <ClInclude Include="Source\Core\Enums\TypeEnum.h" />
     <ClInclude Include="Source\Core\Enums\UpdateLayer.h" />
+    <ClInclude Include="Source\Core\FunctionLibrary.h" />
     <ClInclude Include="Source\Core\LoadFunctions.h" />
     <ClInclude Include="Source\Core\Mesh.h" />
     <ClInclude Include="Source\Core\ResourceLibrary.h" />
@@ -216,6 +218,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Component\Button.cpp" />
     <ClCompile Include="Source\Core\Component\Component.cpp" />
     <ClCompile Include="Source\Core\Component\ComponentID.cpp" />
     <ClCompile Include="Source\Core\Component\Physics.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="Source\Core\Enums\MessageTag.cpp" />
     <ClCompile Include="Source\Core\Enums\TypeEnum.cpp" />
     <ClCompile Include="Source\Core\Enums\UpdateLayer.cpp" />
+    <ClCompile Include="Source\Core\FunctionLibrary.cpp" />
     <ClCompile Include="Source\Core\InputSystem.cpp" />
     <ClCompile Include="Source\Core\Jive.cpp" />
     <ClCompile Include="Source\Core\LoadFunctions.cpp" />

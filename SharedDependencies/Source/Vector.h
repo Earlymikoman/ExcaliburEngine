@@ -85,11 +85,17 @@ public:
 		Output->append("]");
 	}
 
-	float X() const { return dimensions[0]; }
+	float& X() { return dimensions[0]; }
 
-	float Y() const { return dimensions[1]; }
+	float& Y() { return dimensions[1]; }
 
-	float Z() const { return dimensions[2]; }
+	float& Z() { return dimensions[2]; }
+
+	float const& X() const { return dimensions[0]; }
+
+	float const& Y() const { return dimensions[1]; }
+
+	float const& Z() const { return dimensions[2]; }
 
 private:
 

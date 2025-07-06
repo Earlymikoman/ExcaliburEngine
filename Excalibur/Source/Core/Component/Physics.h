@@ -23,6 +23,7 @@
 #include "../../../../SharedDependencies/Source/Vector.h"
 
 class Stream;
+class Message;
 
 #pragma region Pre-Build Component Read Area
 class Physics : public ComponentWithType<cPhysics>
@@ -45,6 +46,8 @@ public:
 	void Update(double& dt);
 
 	void Render();
+
+	void HandleMessage(Message* message);
 
 #pragma region Getters
 

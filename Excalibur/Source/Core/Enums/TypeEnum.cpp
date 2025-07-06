@@ -32,6 +32,7 @@ string GetEnumName(TypeEnum const& Enum)
 		, {TypeEnum::cPhysics, "TypeEnum::cPhysics"}
 		, {TypeEnum::cAnimation, "TypeEnum::cAnimation"}
 		, {TypeEnum::cCollider, "TypeEnum::cCollider"}
+		, {TypeEnum::cButton, "TypeEnum::cButton"}
 		, {TypeEnum::cALL, "TypeEnum::cALL"}
 	};
 

@@ -144,6 +144,14 @@ public:
 		}
 	}
 
+	void HandleMessage(Message* message) override
+	{
+		for (int i = 0; i < _countof(components); ++i)
+		{
+			components[i].JiveIterate<FORWARD>([&message](auto& ingredient) { ingredient.GetBase().HandleMessage(message); }, recipesSnapshot[i]);
+		}
+	}
+
 #pragma region Getters
 
 	static TypeEnum GetComponentType()

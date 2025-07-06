@@ -137,6 +137,11 @@ void Engine::Exit()
 void Engine::HandleMessage(Message* message)
 {
 	std::cout << message->GetTag() << std::endl;
+
+	for (int i = 0; i < systems.size(); ++i)
+	{
+		systems[i]->HandleMessage(message);
+	}
 }
 
 void Engine::Add(System* system)

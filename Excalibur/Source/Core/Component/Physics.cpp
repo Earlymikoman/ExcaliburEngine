@@ -50,3 +50,8 @@ void Physics::Render()
 {
 
 }
+
+void Physics::HandleMessage(Message* message)
+{
+	message;
+}

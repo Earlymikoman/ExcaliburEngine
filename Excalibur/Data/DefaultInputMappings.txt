@@ -11,3 +11,5 @@
 
 68 : Right
 39 : Right
+
+1 : Click

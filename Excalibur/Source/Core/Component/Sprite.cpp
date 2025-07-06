@@ -43,3 +43,8 @@ void Sprite::Render()
 
 	Engine::Draw(mesh, DrawMode::TEXTURE);
 }
+
+void Sprite::HandleMessage(Message* message)
+{
+	message;
+}

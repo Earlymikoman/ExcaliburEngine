@@ -23,6 +23,7 @@
 class Mesh;
 class Texture;
 class Stream;
+class Message;
 
 #pragma region Pre-Build Component Read Area
 class Sprite : public ComponentWithType<cSprite>
@@ -40,6 +41,8 @@ public:
 	void Update(double& dt) { dt; }
 
 	void Render();
+
+	void HandleMessage(Message* message);
 
 private:
 

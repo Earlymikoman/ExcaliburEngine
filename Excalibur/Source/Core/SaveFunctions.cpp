@@ -19,11 +19,13 @@
 #include "SaveFunctions.h"
 
 #include "../../../SharedDependencies/Source/Stream.h"
+#include "FunctionLibrary.h"
 #include "Object.h"
 #include "Component/Component.h"
 #include "Component/Transform.h"
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
+#include "Component/Button.h"
 //#include "../../../SharedDependencies/Source/StringConvert.h"
 #include "ECS.h"
 #include "../../../SharedDependencies/Source/CustomStringFunctions.h"
@@ -166,6 +168,18 @@ void Sprite::Serialize(string* Output) const
 	tempString.append(Tab() + "Texture: " + texture->GetName() + "\n");
 
 	tempString.append(Tab() + "Mesh: " + mesh->GetName() + "\n");
+
+	IncrementTab(-1);
+}
+
+void Button::Serialize(string* Output) const
+{
+	string& tempString = *Output;
+
+	tempString.append("Button:\n");
+	IncrementTab();
+
+	tempString.append(Tab() + "Function: " + function.GetName() + "\n");
 
 	IncrementTab(-1);
 }

@@ -31,6 +31,7 @@ enum TypeEnum
 	cPhysics,
 	cAnimation,
 	cCollider,
+	cButton,
 
 	cALL//WTF does that even mean? It means don't use this.
 };

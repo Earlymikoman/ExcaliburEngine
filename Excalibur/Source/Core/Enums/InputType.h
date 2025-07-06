@@ -32,6 +32,8 @@ enum InputType
 	DOWN,
 	RIGHT,
 
+	CLICK,
+
 	cInputStateMax//DO NOT USE
 };
 

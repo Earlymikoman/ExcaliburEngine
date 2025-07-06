@@ -21,11 +21,13 @@
 //#include "Mesh.h"
 #include "../DirectX/DirectXGraphics.h"
 #include "Engine.h"
+#include "../../../SharedDependencies/Source/Vector.h"
 //#include "ResourceLibrary.h"
 
 //#include "framework.h"
 //#include "Resource.h"
 
+#include <windowsx.h>
 #include <iostream>
 
 #define MAX_LOADSTRING 100
@@ -86,8 +88,8 @@ void WindowsPlatform::InitializeInstance(HINSTANCE hInstance)
 
     // Start the window with little to no resolution, this technically won't be seen as showing has been set to false.
     //! NOTE: Any smaller than these values and DGL will not start the game with the error: "Problem creating depth-stencil buffer. Error 0x80070057"
-    platform.mWindowWidth = 50;
-    platform.mWindowHeight = 50;
+    platform.mWindowWidth = 500;
+    platform.mWindowHeight = 500;
 
     platform.mMaxFrameRate = 120;
 
@@ -157,8 +159,18 @@ BOOL WindowsPlatform::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
     //HINSTANCE hInst = hInstance; // Store instance handle in our global variable
 
+	RECT desiredClientRect = { 0, 0, (LONG)mWindowWidth, (LONG)mWindowHeight};
+
+	AdjustWindowRect(&desiredClientRect, WS_OVERLAPPEDWINDOW, TRUE);
+
+	unsigned int width = desiredClientRect.right - desiredClientRect.left;
+	unsigned int height = desiredClientRect.bottom - desiredClientRect.top;
+
+	//mWindowWidth = width;
+	//mWindowHeight = height;
+
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+        CW_USEDEFAULT, 0, width, height, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
     {
@@ -206,7 +218,7 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
     {
         if (!(((lParam >> 30) & 0x1) != 0))
         {
-            WindowsPlatform::GetInstance()->GetInputSystem()->KeyDown((char)wParam);
+			WindowsPlatform::GetInstance()->GetInputSystem()->KeyDown((char)wParam);
         }
 
         break;
@@ -218,6 +230,24 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
 
         break;
     }
+
+	case WM_LBUTTONDOWN:
+	{
+		/*POINT mousePos;
+
+		GetCursorPos(&mousePos);
+		ScreenToClient(hWnd, &mousePos);*/
+
+		Vector<3> mousePos = Vector<3>( (float)GET_X_LPARAM(lParam),  -(float)GET_Y_LPARAM(lParam), 0.0f);
+
+		mousePos.X() -= WindowsPlatform::GetInstance()->GetWindowWidth() / 2;
+		mousePos.Y() += WindowsPlatform::GetInstance()->GetWindowHeight() / 2;
+		//ScreenToClient(hWnd, &mousePos);
+
+		WindowsPlatform::GetInstance()->GetInputSystem()->MouseDown(VK_LBUTTON, Vector<3>((float)mousePos.X(), (float)mousePos.Y(), 0.0f));
+
+		break;
+	}
 
     case WM_COMMAND:
     {
