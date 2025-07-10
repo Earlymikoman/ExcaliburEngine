@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   TypeEnum.h
+ * @file   Prefabrication.h
  * @brief  .
  * 
  * Project: Excalibur
@@ -19,23 +19,31 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 using std::string;
+using std::unordered_map;
 
-enum TypeEnum
+class Object;
+
+class PrefabLibrary
 {
-	cNONE = 0,//Should not be used.
+private:
 
-	cTransform,
-	cSprite,
-	cTextSprite,
-	cPhysics,
-	cAnimation,
-	cCollider,
-	cButton,
-	cAudioSource,
+	PrefabLibrary();
 
-	cALL//WTF does that even mean? It means don't use this.
+	~PrefabLibrary();
+
+	static void LoadPrefab(string const& Name);
+
+	static void LoadAllPrefabs();
+
+public:
+
+	static void GetPrefab(string const& Name, Object* Output);
+
+private:
+
+	static unordered_map<string, Object*> prefabs;
+
 };
-
-string GetEnumName(TypeEnum const& Enum);

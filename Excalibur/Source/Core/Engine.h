@@ -41,6 +41,8 @@ class Message;
 
 class Mesh;
 class Texture;
+class Sound;
+class Channel;
 
 class Engine
 {
@@ -72,12 +74,18 @@ public:
 
 	static auto const& GetSourceObject() { return objects; }
 
+	static Object* AddObject(Object const& object);
+
+
+
 	static void SetWindow(HWND const& WindowHandle);
 
 	//void SetPlatform(Platform* Platform) { platform = Platform; }
 
 	//static Mesh* LoadMesh(string const& Name);
-	static Texture* LoadTexture(string const& Name);
+	static Texture* LoadTexture(string const& Name, unsigned int const& Rows = 1, unsigned int const& Columns = 1);
+
+	static void SetTextureOffset(Vector<2> const& offset);
 
 	static void Draw(Mesh const* MeshToDraw, DrawMode const& Mode);
 
@@ -87,7 +95,11 @@ public:
 
 	static void SetPosition(Vector<3> const& Position);
 
-	static Object* AddObject(Object const& object);
+	static void SetRotation(float const& Rotation);
+
+	static Sound* LoadSound(string const& Name);
+
+	static void PlaySound(Sound const& sound, Channel* channel);
 
 private:
 

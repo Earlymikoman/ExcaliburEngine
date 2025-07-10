@@ -52,3 +52,13 @@ static Mesh* ResourceLibrary<Mesh>::LoadResource(string const& Name)
 
 	return newMesh;
 }
+
+template<>
+static Sound* ResourceLibrary<Sound>::LoadResource(string const& Name)
+{
+	Sound* newSound = Engine::LoadSound(Name);
+
+	Add(newSound);
+
+	return newSound;
+}

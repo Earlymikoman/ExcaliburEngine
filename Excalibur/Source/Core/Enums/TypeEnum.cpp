@@ -29,10 +29,12 @@ string GetEnumName(TypeEnum const& Enum)
 		{TypeEnum::cNONE, "TypeEnum::cNONE"}
 		, {TypeEnum::cTransform, "TypeEnum::cTransform"}
 		, {TypeEnum::cSprite, "TypeEnum::cSprite"}
+		, {TypeEnum::cTextSprite, "TypeEnum::cTextSprite"}
 		, {TypeEnum::cPhysics, "TypeEnum::cPhysics"}
 		, {TypeEnum::cAnimation, "TypeEnum::cAnimation"}
 		, {TypeEnum::cCollider, "TypeEnum::cCollider"}
 		, {TypeEnum::cButton, "TypeEnum::cButton"}
+		, {TypeEnum::cAudioSource, "TypeEnum::cAudioSource"}
 		, {TypeEnum::cALL, "TypeEnum::cALL"}
 	};
 

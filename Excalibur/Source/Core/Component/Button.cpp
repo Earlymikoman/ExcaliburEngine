@@ -25,14 +25,14 @@
 #include "../MultiField.h"
 
 Button::Button(string const& FunctionName)
-	: function(NamedFunction(FunctionName, FunctionLibrary::Get(FunctionName)))
+	: function(NamedFunction<void, Button*>(FunctionName, FunctionLibrary<void, Button*>::Get(FunctionName)))
 {
 }
 
-Button::Button(string const& FunctionName, std::function<void()> const& Function)
-	: function(NamedFunction(FunctionName, Function))
+Button::Button(string const& FunctionName, std::function<void(Button*)> const& Function)
+	: function(NamedFunction<void, Button*>(FunctionName, Function))
 {
-	FunctionLibrary::LoadFunction(FunctionName, Function);
+	FunctionLibrary<void, Button*>::LoadFunction(FunctionName, Function);
 }
 
 void Button::Update(double& dt)
@@ -42,7 +42,7 @@ void Button::Update(double& dt)
 
 void Button::Render()
 {
-
+	
 }
 
 void Button::HandleMessage(Message* message)
@@ -70,7 +70,7 @@ void Button::HandleMessage(Message* message)
 			&& mousePos->Y() < (parentPos.Y() + (parentScale.Y() / 2))
 			)
 		{
-			function.GetFunction()();
+			function.GetFunction()(this);
 		}
 		
 		break;

@@ -48,6 +48,7 @@ public:
 	{
 		for (int i = 0; i < resources.size(); ++i)
 		{
+			resources[i]->Deallocate();
 			delete resources[i];
 		}
 	}

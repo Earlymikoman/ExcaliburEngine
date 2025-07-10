@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   TypeEnum.h
+ * @file   Matrix.cpp
  * @brief  .
  * 
  * Project: Excalibur
@@ -16,26 +16,4 @@
  *			 /
  */
 
-#pragma once
-
-#include <string>
-
-using std::string;
-
-enum TypeEnum
-{
-	cNONE = 0,//Should not be used.
-
-	cTransform,
-	cSprite,
-	cTextSprite,
-	cPhysics,
-	cAnimation,
-	cCollider,
-	cButton,
-	cAudioSource,
-
-	cALL//WTF does that even mean? It means don't use this.
-};
-
-string GetEnumName(TypeEnum const& Enum);
+#include "Matrix.h"

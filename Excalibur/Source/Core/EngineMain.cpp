@@ -28,6 +28,7 @@
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
 #include "Component/Button.h"
+#include "Component/AudioSource.h"
 
 #include <chrono>
 #include <omp.h>
@@ -40,9 +41,11 @@
 #include "SaveFunctions.h"
 #include "LoadFunctions.h"
 #include "../../../SharedDependencies/Source/Stream.h"
+#include "../../../SharedDependencies/Source/Matrix.h"
 #include "Object.h"
 #include "Mesh.h"
 #include "../DirectX/DirectXGraphics.h"
+#include "../FMOD/FMODAudio.h"
 #include "ResourceLibrary.h"
 
 #pragma endregion Includes For Testing Only
@@ -85,13 +88,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	int running = mainEngine->Init(hInstance);
 
 	//Add Systems to the Engine here.
-	mainEngine->Add(ECS<Physics>::GetInstance());
 	mainEngine->Add(ECS<Sprite>::GetInstance());
+	mainEngine->Add(ECS<Physics>::GetInstance());
 	mainEngine->Add(ECS<Button>::GetInstance());
+	mainEngine->Add(ECS<AudioSource>::GetInstance());
 	//mainEngine->GetSourceObject()->AddComponent(Physics());
 
 	auto previousTime = std::chrono::high_resolution_clock::now();
-
 
 
 
@@ -107,7 +110,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//testSprite.Load(&spriteStream);
 
-	FunctionLibrary::LoadFunction("TestButtonFunction", []() {cout << "buttondown" << endl; });
+	FunctionLibrary<void, Button*>::LoadFunction("TestButtonFunction", [](Button* button) { button->GetParent()->GetComponent<AudioSource>()->Play(); });
 
 	Object* testObject = Engine::AddObject(Object());
 	testObject->Load(&objectStream);
@@ -119,6 +122,58 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//spriteStream.Close();
 	objectStream.Close();
 
+	//testObject->GetComponent<AudioSource>()->Play();
+
+
+
+
+
+	float matrixvalues[4][4] = { {1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16} };
+	auto matrix1 = Matrix<4, 4>(matrixvalues);
+	auto matrix2 = Matrix<4, 4>(matrixvalues);
+	auto identity = Matrix<4, 4>();
+	identity.Identity();
+	//matrix.Identity();
+	//auto transposeMatrix = matrix.GetTranspose();
+	string matrixString;
+
+	float vectorValues[] = { 1, 2, 3, 1 };
+	vectorValues;
+
+	matrix1.Identity();
+	matrix1.Translate(Vector<4>(vectorValues));
+	matrix2.Identity();
+	matrix2.RotDeg(90);
+
+	matrix2.ConcatInPlace(matrix1);
+
+	matrix2.Serialize(&matrixString);
+
+
+
+
+
+
+
+	//Stream soundStream = Stream("Data/TestSource.txt");
+	//string soundString;
+
+	////Sound const* testsound = ResourceLibrary<Sound>::Get("sample_beep.ogg");
+
+	//AudioSource source = AudioSource();
+
+	////source.Play();
+
+	//source.Load(&soundStream);
+
+	//source.Serialize(&soundString);
+
+	//soundStream.Write(soundString);
+
+	//soundStream.Close();
+
+	//source.Play();
+
 
 
 
@@ -127,6 +182,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
 	int a = 0;
 	++a;
+
 
 
 

@@ -26,6 +26,7 @@
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
 #include "Component/Button.h"
+#include "Component/AudioSource.h"
 //#include "../../../SharedDependencies/Source/StringConvert.h"
 #include "ECS.h"
 #include "../../../SharedDependencies/Source/CustomStringFunctions.h"
@@ -93,6 +94,18 @@ void ::Mesh::Serialize(string* Output) const
 	IncrementTab(-1);
 }
 
+void Channel::Serialize(string* Output) const
+{
+	string& tempString = *Output;
+
+	tempString.append("Channel:\n");
+	IncrementTab();
+
+	tempString.append(Tab() + "FMODChannel: " + std::to_string(0) + "\n");
+
+	IncrementTab(-1);
+}
+
 void Object::Serialize(string* Output) const
 {
 	string& tempString = *Output;
@@ -122,6 +135,8 @@ void Object::Serialize(string* Output) const
 		children[i]->Serialize(&tempString);
 	}
 	IncrementTab(-1);
+
+	IncrementTab(-1);
 }
 void Transform::Serialize(string* Output) const
 {
@@ -135,7 +150,7 @@ void Transform::Serialize(string* Output) const
 	tempString.append("\n");
 
 	tempString.append(Tab() + "Rotation: ");
-	rotation.Serialize(&tempString);
+	tempString.append(std::to_string(rotation));
 	tempString.append("\n");
 
 	tempString.append(Tab() + "Scale: ");
@@ -180,6 +195,22 @@ void Button::Serialize(string* Output) const
 	IncrementTab();
 
 	tempString.append(Tab() + "Function: " + function.GetName() + "\n");
+
+	IncrementTab(-1);
+}
+
+void AudioSource::Serialize(string* Output) const
+{
+	string& tempString = *Output;
+
+	tempString.append("AudioSource:\n");
+	IncrementTab();
+
+	tempString.append(Tab());
+	channel.Serialize(Output);
+	//tempString.append("\n");
+
+	tempString.append(Tab() + "Sound: " + sound->GetName() + "\n");
 
 	IncrementTab(-1);
 }

@@ -74,6 +74,22 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(SolutionDir)FMOD\lib\$(Platform);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <IncludePath>$(SolutionDir)FMOD\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(SolutionDir)FMOD\lib\$(Platform);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(SolutionDir)FMOD\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)FMOD\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)FMOD\lib\$(Platform);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)FMOD\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)FMOD\lib\$(Platform);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -91,10 +107,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)FMOD/lib/$(Platform)/fmod_vc.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)FMOD\lib\$(Platform)\fmod.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -117,10 +137,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)FMOD/lib/$(Platform)/fmod_vc.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)FMOD\lib\$(Platform)\fmod.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -139,10 +163,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)FMOD/lib/$(Platform)/fmod_vc.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)FMOD\lib\$(Platform)\fmod.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -165,15 +193,21 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)FMOD/lib/$(Platform)/fmod_vc.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)\$(Platform)\$(Configuration)\Pre-Build.exe</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)FMOD\lib\$(Platform)\fmod.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Component\AudioSource.h" />
     <ClInclude Include="Source\Core\Component\Button.h" />
     <ClInclude Include="Source\Core\Component\Physics.h" />
     <ClInclude Include="Source\Core\Component\Sprite.h" />
+    <ClInclude Include="Source\Core\Component\TextSprite.h" />
     <ClInclude Include="Source\Core\Enums\Direction.h" />
     <ClInclude Include="Source\Core\Enums\DrawMode.h" />
     <ClInclude Include="Source\Core\Enums\EnumMappings.h" />
@@ -186,6 +220,7 @@
     <ClInclude Include="Source\Core\FunctionLibrary.h" />
     <ClInclude Include="Source\Core\LoadFunctions.h" />
     <ClInclude Include="Source\Core\Mesh.h" />
+    <ClInclude Include="Source\Core\Prefabrication.h" />
     <ClInclude Include="Source\Core\ResourceLibrary.h" />
     <ClInclude Include="Source\Core\SaveFunctions.h" />
     <ClInclude Include="Source\Core\Texture.h" />
@@ -214,15 +249,18 @@
     <ClInclude Include="Source\DirectX\PTexShader.h" />
     <ClInclude Include="Source\DirectX\VShader.h" />
     <ClInclude Include="Source\DirectX\WICTextureLoader11.h" />
+    <ClInclude Include="Source\FMOD\FMODAudio.h" />
     <ClInclude Include="Source\Stub.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Component\AudioSource.cpp" />
     <ClCompile Include="Source\Core\Component\Button.cpp" />
     <ClCompile Include="Source\Core\Component\Component.cpp" />
     <ClCompile Include="Source\Core\Component\ComponentID.cpp" />
     <ClCompile Include="Source\Core\Component\Physics.cpp" />
     <ClCompile Include="Source\Core\Component\Sprite.cpp" />
+    <ClCompile Include="Source\Core\Component\TextSprite.cpp" />
     <ClCompile Include="Source\Core\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\ECS.cpp" />
     <ClCompile Include="Source\Core\Engine.cpp" />
@@ -244,6 +282,7 @@
     <ClCompile Include="Source\Core\MultiField.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
     <ClCompile Include="Source\Core\Platform.cpp" />
+    <ClCompile Include="Source\Core\Prefabrication.cpp" />
     <ClCompile Include="Source\Core\ResourceLibrary.cpp" />
     <ClCompile Include="Source\Core\SampleWindowsApp.cpp" />
     <ClCompile Include="Source\Core\SaveFunctions.cpp" />
@@ -259,6 +298,7 @@
     <ClCompile Include="Source\Core\WindowsPlatform.cpp" />
     <ClCompile Include="Source\DirectX\DirectXGraphics.cpp" />
     <ClCompile Include="Source\DirectX\WICTextureLoader11.cpp" />
+    <ClCompile Include="Source\FMOD\FMODAudio.cpp" />
     <ClCompile Include="Source\Stub.cpp" />
   </ItemGroup>
   <ItemGroup>

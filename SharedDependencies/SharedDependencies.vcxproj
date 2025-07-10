@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\CustomStringFunctions.cpp" />
+    <ClCompile Include="Source\Matrix.cpp" />
     <ClCompile Include="Source\Stream.cpp" />
     <ClCompile Include="Source\StringConvert.cpp" />
     <ClCompile Include="Source\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CustomStringFunctions.h" />
+    <ClInclude Include="Source\Matrix.h" />
     <ClInclude Include="Source\Stream.h" />
     <ClInclude Include="Source\StringConvert.h" />
     <ClInclude Include="Source\Vector.h" />
@@ -114,11 +116,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

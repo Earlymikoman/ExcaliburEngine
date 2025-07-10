@@ -1,3 +1,20 @@
+/*********************************************************************
+ * @file   DirectXGraphics.cpp
+ * @brief  .
+ *
+ * Project: Excalibur
+ *
+ * @author Xander Boosinger (xboosinger@gmail.com), DigiPen Insitute of Technology
+ * @date   April 2025
+ *
+ *********************************************************************
+/*
+ *			*	/\
+ *			   / /	*
+ *		*	__/ /__
+ *		      /	  *
+ *			 /
+ */
 
 // Basic Windows include
 #define WIN32_LEAN_AND_MEAN
@@ -7,6 +24,7 @@
 #include "../Core/Mesh.h"
 #include "../Core/Texture.h"
 #include "../../../SharedDependencies/Source/Vector.h"
+#include "../../../SharedDependencies/Source/Matrix.h"
 #include "../../../SharedDependencies/Source/CustomStringFunctions.h"
 //#include "../Core/Enums.h"
 
@@ -141,7 +159,7 @@ bool DirectXData::InitializeGraphics()
     UINT flags = D3D11_CREATE_DEVICE_SINGLETHREADED;
     // If in debug mode, add the debug flag
 #if defined(DEBUG) || defined(_DEBUG)
-    flags |= D3D11_CREATE_DEVICE_DEBUG;
+    //flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
     // Create swap chain description struct and set the memory to zero
@@ -481,8 +499,8 @@ void DirectXData::ShutDownGraphics()
 void DirectXData::StartDrawing()
 {
 	// Clear the render target with the background color
-	/*float backgroundColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
-	DeviceContext->ClearRenderTargetView(RenderTargetView, backgroundColor);*/
+	//float backgroundColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	//DeviceContext->ClearRenderTargetView(RenderTargetView, backgroundColor);
 	// Set the input layout
 	DeviceContext->IASetInputLayout(InputLayout);
 	// Set the render target
@@ -618,7 +636,7 @@ void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, flo
     *worldY = transformedPos.y;
 }
 
-::Texture* DirectXData::LoadTexture(string const& Name)
+::Texture* DirectXData::LoadTexture(string const& Name, unsigned int const& Rows, unsigned int const& Columns)
 {
 	HRESULT hr;
 
@@ -644,7 +662,15 @@ void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, flo
 	// Save the texture in the texture resource variable
 	//Texture = (ID3D11Texture2D*)temp;
 
-	return new ::Texture(Name, temp, TexResourceView);
+	return new ::Texture(Name, temp, TexResourceView, Rows, Columns);
+}
+
+void DirectXData::SetTextureOffset(Vector<2> const& offset)
+{
+	for (int i = 0; i < _countof(ConstantBuffer.TexOffset); ++i)
+	{
+		ConstantBuffer.TexOffset[i] = offset[i];
+	}
 }
 
 void DirectXData::SetTexture(::Texture const* texture)
@@ -665,4 +691,18 @@ void DirectXData::SetPosition(Vector<3> const& Position)
 	ConstantBuffer.Position[1] = Position.Y();
 }
 
+void DirectXData::SetRotation(float const& Degrees)
+{
+	Matrix<4, 4> rotationMatrix;
+	rotationMatrix.Identity();
 
+	rotationMatrix.RotDeg(Degrees);
+
+	for (int i = 0; i < _countof(DirectXData::ConstantBuffer.Rotation); ++i)
+	{
+		for (int j = 0; j < _countof(DirectXData::ConstantBuffer.Rotation[0]); ++j)
+		{
+			ConstantBuffer.Rotation[i][j] = rotationMatrix[i, j];
+		}
+	}
+}

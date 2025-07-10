@@ -27,6 +27,7 @@
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
 #include "Component/Button.h"
+#include "Component/AudioSource.h"
 #include "ECS.h"
 #include "Enums/EnumMappings.h"
 #include "Engine.h"
@@ -109,6 +110,18 @@ void Mesh::Load(Stream* openStream)
 	{
 		LoadVertexData(openStream, &vertexList[i]);
 	}
+}
+
+void Channel::Load(Stream* openStream)
+{
+	string buffer;
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	channel = (FMOD_CHANNEL*)std::stoull(buffer);
 }
 
 void Object::Load(Stream* openStream)
@@ -201,14 +214,29 @@ void Button::Load(Stream* openStream)
 
 	openStream->ReadToken(&garbage);
 	openStream->ReadToken(&buffer);
-	function = NamedFunction(buffer, FunctionLibrary::Get(buffer));
+	function = NamedFunction<void, Button*>(buffer, FunctionLibrary<void, Button*>::Get(buffer));
+}
+void AudioSource::Load(Stream* openStream)
+{
+	string buffer;
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	//openStream->ReadToken(&garbage);
+	channel.Load(openStream);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	sound = ResourceLibrary<Sound>::Get(buffer);
 }
 
 #pragma region Pre-Build Editing Area
 
 static unordered_map LoadingFunctionMap = unordered_map<string, void(*)(Object*, Stream*, const UpdateLayer&)>
 {
-	{ "Button", &Load<Button> }
+	{ "AudioSource", &Load<AudioSource> }
+	, { "Button", &Load<Button> }
 	, { "Physics", &Load<Physics> }
 	, { "Sprite", &Load<Sprite> }
 	, { "Transform", &Load<Transform> }

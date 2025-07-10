@@ -21,6 +21,7 @@
 #include "Message.h"
 #include "WindowsPlatform.h"
 #include "../DirectX/DirectXGraphics.h"
+#include "../FMOD/FMODAudio.h"
 #include "Mesh.h"
 #include "ResourceLibrary.h"
 
@@ -28,6 +29,7 @@
 
 typedef WindowsPlatform EnginePlatform;
 typedef DirectXData EngineGraphicsEngine;
+typedef FMODAudio EngineAudioEngine;
 
 //EngineGraphicsEngine::SetWindow(HWND const& windowHandle);
 
@@ -48,9 +50,11 @@ Engine::~Engine()
 
 int Engine::Init(HINSTANCE const& HInstance)
 {
-	WindowsPlatform::InitializeInstance(HInstance);
+	EnginePlatform::InitializeInstance(HInstance);
 
 	EngineGraphicsEngine::InitializeGraphics();
+
+	EngineAudioEngine::InitializeAudio();
 
 
 
@@ -59,6 +63,8 @@ int Engine::Init(HINSTANCE const& HInstance)
 
 int Engine::Update(double& dt)
 {
+	dt;
+
 	EnginePlatform::Update(dt);
 
 	for (int i = 0; i < systems.size(); ++i)
@@ -79,54 +85,6 @@ void Engine::Render()
 	}
 
 	EngineGraphicsEngine::FinishDrawing();
-
-	//static float xpos = 100;
-	//xpos += 1;
-
-	//EngineGraphicsEngine::SetPosition(Vector<2>(xpos, 100));
-	//EngineGraphicsEngine::SetScale(Vector<2>(100, 100));
-
-	//EngineGraphicsEngine::LoadTexture("Assets/Milk.png");
-	////EngineGraphicsEngine::SetTexture(ResourceLibrary<Texture)
-
-	//Draw
-	//(
-	//	*new Mesh
-	//	(
-	//		"TestMesh"
-	//		, vector<VertexData>
-	//{
-	//	VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-	//		, VertexData(-0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 0.0f)
-	//		, VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-	//		, VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-	//		, VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-	//		, VertexData(0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f)
-	//}
-	//	)
-	//	, DrawMode::TEXTURE
-	//);
-
-	//EngineGraphicsEngine::LoadTexture("Assets/Ball.png");
-	//EngineGraphicsEngine::SetPosition(Vector<2>(200, 100));
-
-	//Draw
-	//(
-	//	*new Mesh
-	//	(
-	//		"TestMesh"
-	//		, vector<VertexData>
-	//{
-	//	VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-	//		, VertexData(-0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 0.0f)
-	//		, VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-	//		, VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-	//		, VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-	//		, VertexData(0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f)
-	//}
-	//	)
-	//	, DrawMode::TEXTURE
-	//);
 }
 
 void Engine::Exit()
@@ -147,6 +105,11 @@ void Engine::HandleMessage(Message* message)
 void Engine::Add(System* system)
 {
 	systems.push_back(system);
+}
+
+Object* Engine::AddObject(Object const& object)
+{
+	return &objects[objects.Add(object)];
 }
 
 void Engine::SetWindow(HWND const& WindowHandle)
@@ -181,9 +144,24 @@ void Engine::SetPosition(Vector<3> const& Position)
 	EngineGraphicsEngine::SetPosition(Position);
 }
 
-Object* Engine::AddObject(Object const& object)
+void Engine::SetRotation(float const& Rotation)
 {
-	return &objects[objects.Add(object)];
+	EngineGraphicsEngine::SetRotation(Rotation);
+}
+
+Sound* Engine::LoadSound(string const& Name)
+{
+	return EngineAudioEngine::LoadSound(Name);
+}
+
+void Engine::PlaySound(Sound const& sound, Channel* channel)
+{
+	EngineAudioEngine::PlaySound(sound, channel);
+}
+
+void Engine::SetTextureOffset(Vector<2> const& offset)
+{
+	EngineGraphicsEngine::SetTextureOffset(offset);
 }
 
 #pragma region Resource Loading Functions
@@ -193,9 +171,9 @@ Object* Engine::AddObject(Object const& object)
 //	return EngineGraphicsEngine::Load
 //}
 //
-Texture* Engine::LoadTexture(string const& Name)
+Texture* Engine::LoadTexture(string const& Name, unsigned int const& Rows, unsigned int const& Columns)
 {
-	return EngineGraphicsEngine::LoadTexture(Name);
+	return EngineGraphicsEngine::LoadTexture(Name, Rows, Columns);
 }
 
 #pragma endregion

@@ -31,18 +31,18 @@
 
 using std::unordered_map;
 
-#pragma region Pre-Build Editing Area
-
-static unordered_map EnumMap = unordered_map<string, int>
-{
-	{"cNONE", 0}
-	, {"MeshMode::TRIANGLELIST", MeshMode::TRIANGLELIST}
-};
-
-#pragma endregion
-
 unsigned int GetEnumValue(string const& EnumName)
 {
+#pragma region Pre-Build Editing Area
+
+	static unordered_map EnumMap = unordered_map<string, int>
+	{
+		{"cNONE", 0}
+		, {"MeshMode::TRIANGLELIST", MeshMode::TRIANGLELIST}
+	};
+
+#pragma endregion Pre-Build Editing Area
+
 	//assert(EnumMap.find(EnumName));
 
 	return EnumMap[EnumName];

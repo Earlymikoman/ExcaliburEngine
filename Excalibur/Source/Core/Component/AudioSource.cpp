@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   TypeEnum.h
+ * @file   AudioSource.cpp
  * @brief  .
  * 
  * Project: Excalibur
@@ -16,26 +16,18 @@
  *			 /
  */
 
-#pragma once
+#include "AudioSource.h"
 
-#include <string>
+#include "../Engine.h"
 
-using std::string;
-
-enum TypeEnum
+AudioSource::AudioSource(Channel const& Channel, Sound const* const& Sound)
+	: channel(Channel)
+	, sound(Sound)
 {
-	cNONE = 0,//Should not be used.
 
-	cTransform,
-	cSprite,
-	cTextSprite,
-	cPhysics,
-	cAnimation,
-	cCollider,
-	cButton,
-	cAudioSource,
+}
 
-	cALL//WTF does that even mean? It means don't use this.
-};
-
-string GetEnumName(TypeEnum const& Enum);
+void AudioSource::Play()
+{
+	Engine::PlaySound(*sound, &channel);
+}

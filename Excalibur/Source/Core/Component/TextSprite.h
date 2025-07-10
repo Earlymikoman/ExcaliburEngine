@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   Button.h
+ * @file   TextSprite.h
  * @brief  .
  * 
  * Project: Excalibur
@@ -18,35 +18,28 @@
 
 #pragma once
 
-#include "Component.h"
-
-#include "../../../../SharedDependencies/Source/Stream.h"
-#include "../FunctionLibrary.h"
+#include "Sprite.h"
 
 #include <string>
-#include <functional>
 
 using std::string;
-using std::function;
 
-class Message;
+class Mesh;
+class Texture;
 
-#pragma region Pre-Build Component Read Area
-class Button : public ComponentWithType<cButton>
+class TextSprite : public ComponentWithType<cTextSprite>
 {
 public:
 
-	Button() = default;
+	TextSprite() = default;
 
-	Button(string const& FunctionName);
-
-	Button(string const& FunctionName, function<void(Button*)> const& Function);
+	TextSprite(Texture const* const& Font, string const& Text);
 
 	void Serialize(string* Output) const;
 
 	void Load(Stream* openStream);
 
-	void Update(double& dt);
+	void Update(double& dt) { dt; }
 
 	void Render();
 
@@ -54,7 +47,10 @@ public:
 
 private:
 
-	NamedFunction<void, Button*> function;
+	static Mesh const* textMesh;
+
+	Texture const* font;
+
+	string text;
 
 };
-#pragma endregion Pre-Build Component Read Area

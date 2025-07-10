@@ -37,6 +37,8 @@ public:
 
 	Mesh(string const& Name, vector<VertexData> const& Vertices, MeshMode const& MeshType = TRIANGLELIST);
 
+	void Deallocate() {}
+
 	string const& GetName() const { return name; }
 
 	vector<VertexData> const& GetVertices() const { return vertexList; }

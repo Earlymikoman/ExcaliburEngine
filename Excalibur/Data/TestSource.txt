@@ -1,0 +1,8 @@
+AudioSource:
+	Channel:
+		FMODChannel: 0
+	Sound: sample_beep.ogg
+udioSource:
+	Channel:
+		FMODChannel: 0
+	Sound: sample_beep.ogg

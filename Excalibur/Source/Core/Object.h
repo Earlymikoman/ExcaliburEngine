@@ -100,8 +100,8 @@ public:
 	template<typename T>
 	T* GetComponent()
 	{
-		assert(components.find(ECS<T>::GetInstance()) && "Couldn't Find Component in Object.GetComponent().");
-		return components.find(ECS<T>::GetInstance());
+		assert((components.find(ECS<T>::GetInstance()) != components.end()) && "Couldn't Find Component in Object.GetComponent().");
+		return (T*)components.find(ECS<T>::GetInstance())->second.GetPointer();
 	}
 
 	void AddChild(Object* const& ObjectToAdd) { children.push_back(ObjectToAdd); ObjectToAdd->SetParent(this); }

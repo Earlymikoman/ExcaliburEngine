@@ -1,3 +1,21 @@
+/*********************************************************************
+ * @file   DirectXGraphics.h
+ * @brief  .
+ *
+ * Project: Excalibur
+ *
+ * @author Xander Boosinger (xboosinger@gmail.com), DigiPen Insitute of Technology
+ * @date   April 2025
+ *
+ *********************************************************************
+/*
+ *			*	/\
+ *			   / /	*
+ *		*	__/ /__
+ *		      /	  *
+ *			 /
+ */
+
 #pragma once
 
 #include "../Core/Enums/DrawMode.h"
@@ -99,7 +117,9 @@ public:
 
 	static bool UpdateWorldView();
 
-	static Texture* LoadTexture(string const& fileName);
+	static Texture* LoadTexture(string const& fileName, unsigned int const& Rows = 1, unsigned int const& Columns = 1);
+
+	static void SetTextureOffset(Vector<2> const& offset);
 
 	static void SetTexture(Texture const* texture);
 
@@ -107,6 +127,8 @@ public:
 
 	static void SetPosition(Vector<3> const& Position);
 	//void SetPosition(Vector<3> const& Position);
+
+	static void SetRotation(float const& Degrees);
 
 	static void SetWindow(HWND const& windowHandle) { WindowHandle = windowHandle; }
 

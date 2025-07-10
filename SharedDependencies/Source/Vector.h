@@ -33,6 +33,24 @@ public:
 
 	Vector() = default;
 
+	Vector(float const Dim[Dimensions])
+	{
+		for (int i = 0; i < Dimensions; ++i)
+		{
+			dimensions[i] = Dim[i];
+		}
+	}
+
+	float const& operator[](unsigned int index) const
+	{
+		return dimensions[index];
+	}
+
+	float& operator[](unsigned int index)
+	{
+		return dimensions[index];
+	}
+
 	float Get(unsigned int Dimension) { return dimensions[Dimension]; }
 
 private:
@@ -47,6 +65,16 @@ class Vector<2>
 public:
 
 	Vector(float X = 0, float Y = 0) : dimensions{ X, Y } {};
+
+	float const& operator[](unsigned int index) const
+	{
+		return dimensions[index];
+	}
+
+	float& operator[](unsigned int index)
+	{
+		return dimensions[index];
+	}
 
 	float X() const { return dimensions[0]; }
 
@@ -69,6 +97,16 @@ public:
 		int a = 0;
 		++a;
 	};
+
+	float const& operator[](unsigned int index) const
+	{
+		return dimensions[index];
+	}
+
+	float& operator[](unsigned int index)
+	{
+		return dimensions[index];
+	}
 
 	void Serialize(string* Output) const
 	{

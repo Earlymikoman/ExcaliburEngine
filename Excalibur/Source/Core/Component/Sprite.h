@@ -44,6 +44,16 @@ public:
 
 	void HandleMessage(Message* message);
 
+#pragma region Setters
+
+	void SetFrameIndex(unsigned int const& Index) { frameIndex = Index; }
+
+#pragma endregion
+
+#pragma region Getters
+
+#pragma endregion
+
 private:
 
 	// The frame currently being displayed (for sprite sheets).

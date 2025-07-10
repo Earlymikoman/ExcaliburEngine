@@ -43,13 +43,13 @@ public:
 
 	Vector<3> const& GetPosition() const { return position; }
 
-	Vector<3> const& GetRotation() const { return rotation; }
+	auto const& GetRotation() const { return rotation; }
 
 	Vector<3> const& GetScale() const { return scale; }
 
 	void SetPosition(Vector<3> const& Position) { position = Position; }
 
-	void SetRotation(Vector<3> const& Rotation) { rotation = Rotation; }
+	void SetRotation(float const& Rotation) { rotation = Rotation; }
 
 	void SetScale(Vector<3> const& Scale) { scale = Scale; }
 
@@ -57,7 +57,7 @@ private:
 
 	Vector<3> position;
 
-	Vector<3> rotation;
+	float rotation;
 
 	Vector<3> scale;
 

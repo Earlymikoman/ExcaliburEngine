@@ -53,8 +53,8 @@ void SplitString(vector<string>* Output, string const& OriginalString, vector<st
 
 void FindStringByDelimiters(string* Output, string const& OriginalString, tuple<string, string> const& Delimiters)
 {
-	unsigned int startIndex = OriginalString.find(get<0>(Delimiters)) + get<0>(Delimiters).length();
-	unsigned int endIndex = OriginalString.find(get<1>(Delimiters));
+	unsigned int startIndex = (unsigned int)OriginalString.find(get<0>(Delimiters)) + (unsigned int)get<0>(Delimiters).length();
+	unsigned int endIndex = (unsigned int)OriginalString.find(get<1>(Delimiters));
 
 	*Output = OriginalString.substr(startIndex, endIndex - startIndex);
 }
