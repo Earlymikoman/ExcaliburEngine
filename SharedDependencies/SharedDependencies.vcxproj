@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Source\CustomStringFunctions.cpp" />
     <ClCompile Include="Source\Matrix.cpp" />
+    <ClCompile Include="Source\Random.cpp" />
     <ClCompile Include="Source\Stream.cpp" />
     <ClCompile Include="Source\StringConvert.cpp" />
     <ClCompile Include="Source\Vector.cpp" />
@@ -28,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="Source\CustomStringFunctions.h" />
     <ClInclude Include="Source\Matrix.h" />
+    <ClInclude Include="Source\Random.h" />
     <ClInclude Include="Source\Stream.h" />
     <ClInclude Include="Source\StringConvert.h" />
     <ClInclude Include="Source\Vector.h" />
@@ -105,7 +107,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -134,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;_SECURE_SCL=0</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>

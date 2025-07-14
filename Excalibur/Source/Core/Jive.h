@@ -226,11 +226,8 @@ public:
 			emptyMixIndex = 0;
 		}
 
-		
-		{
-			mix[emptyRecipeIndex][emptyMixIndex] = Ingredient(Base);
-			ExtendStep(emptyRecipeIndex, 0);
-		}
+		mix[emptyRecipeIndex][emptyMixIndex] = Ingredient(Base);
+		ExtendStep(emptyRecipeIndex, 0);
 
 		CleanRecipe(emptyRecipeIndex);
 
@@ -368,7 +365,7 @@ private:
 
 	vector<vector<Step>> recipe;
 
-	vector<Ingredient<T>*> mix;
+	vector<Ingredient<T>*> mix;//THIS IS A VECTOR OF ARRAYS, NOT A VECTOR OF SINGLE POINTERS.
 
 	//char testpadding[1000000];
 

@@ -27,13 +27,14 @@ using std::string;
 class Mesh;
 class Texture;
 
+#pragma region Pre-Build Component Read Area
 class TextSprite : public ComponentWithType<cTextSprite>
 {
 public:
 
 	TextSprite() = default;
 
-	TextSprite(Texture const* const& Font, string const& Text);
+	TextSprite(Texture const* const& Font, string const& Text, float Alpha = 1);
 
 	void Serialize(string* Output) const;
 
@@ -49,8 +50,11 @@ private:
 
 	static Mesh const* textMesh;
 
+	float alpha;
+
 	Texture const* font;
 
 	string text;
 
 };
+#pragma endregion Pre-Build Component Read Area

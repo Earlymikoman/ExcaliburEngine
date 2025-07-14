@@ -25,6 +25,7 @@
 #include "Component/Transform.h"
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
+#include "Component/TextSprite.h"
 #include "Component/Button.h"
 #include "Component/AudioSource.h"
 //#include "../../../SharedDependencies/Source/StringConvert.h"
@@ -183,6 +184,25 @@ void Sprite::Serialize(string* Output) const
 	tempString.append(Tab() + "Texture: " + texture->GetName() + "\n");
 
 	tempString.append(Tab() + "Mesh: " + mesh->GetName() + "\n");
+
+	IncrementTab(-1);
+}
+
+void TextSprite::Serialize(string* Output) const
+{
+	string& tempString = *Output;
+
+	tempString.append("TextSprite:\n");
+	IncrementTab();
+
+	//tempString.append(Tab() + "Frame Index: " + std::to_string(frameIndex) + "\n");
+
+	tempString.append(Tab() + "Alpha: " + std::to_string(alpha) + "\n");
+
+	tempString.append(Tab() + "Font: " + font->GetName() + "\n");
+
+	tempString.append(Tab() + "Text: ");
+	Stream::FormatString(&tempString, text);
 
 	IncrementTab(-1);
 }

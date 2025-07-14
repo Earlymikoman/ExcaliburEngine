@@ -26,6 +26,7 @@
 #include "Component/Transform.h"
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
+#include "Component/TextSprite.h"
 #include "Component/Button.h"
 #include "Component/AudioSource.h"
 #include "ECS.h"
@@ -205,6 +206,26 @@ void Sprite::Load(Stream* openStream)
 	openStream->ReadToken(&buffer);
 	mesh = ResourceLibrary<Mesh>::Get(buffer);
 }
+void TextSprite::Load(Stream* openStream)
+{
+	string buffer;
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	alpha = std::stof(buffer);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&buffer);
+	font = ResourceLibrary<Texture>::Get(buffer);
+
+	openStream->ReadToken(&garbage);
+	text = "";
+	openStream->ReadFormatString(&text);
+	//text = buffer;
+}
 void Button::Load(Stream* openStream)
 {
 	string buffer;
@@ -239,6 +260,7 @@ static unordered_map LoadingFunctionMap = unordered_map<string, void(*)(Object*,
 	, { "Button", &Load<Button> }
 	, { "Physics", &Load<Physics> }
 	, { "Sprite", &Load<Sprite> }
+	, { "TextSprite", &Load<TextSprite> }
 	, { "Transform", &Load<Transform> }
 };
 

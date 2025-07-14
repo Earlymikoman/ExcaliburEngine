@@ -37,7 +37,9 @@ public:
 
 	Mesh(string const& Name, vector<VertexData> const& Vertices, MeshMode const& MeshType = TRIANGLELIST);
 
-	void Deallocate() {}
+	void Allocate();
+
+	void Deallocate();
 
 	string const& GetName() const { return name; }
 
@@ -59,5 +61,7 @@ private:
 	//const int vertexCount;
 	// The vertex data for our single mesh
 	vector<VertexData> vertexList;
+
+	ID3D11Buffer* realBuffer;
 
 };

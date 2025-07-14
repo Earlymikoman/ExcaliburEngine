@@ -32,3 +32,13 @@ Mesh::Mesh(string const& Name, vector<VertexData> const& Vertices, MeshMode cons
 	, meshType(MeshType)
 {
 }
+
+void Mesh::Allocate()
+{
+	
+}
+
+void Mesh::Deallocate()
+{
+
+}

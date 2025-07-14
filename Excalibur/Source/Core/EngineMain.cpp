@@ -27,8 +27,15 @@
 #include "Jive.h"
 #include "Component/Physics.h"
 #include "Component/Sprite.h"
+#include "Component/TextSprite.h"
 #include "Component/Button.h"
 #include "Component/AudioSource.h"
+
+#pragma region Game Mains
+
+#include "../JustPressStart!/JustPressStartMain.h"
+
+#pragma endregion Game Mains
 
 #include <chrono>
 #include <omp.h>
@@ -36,6 +43,7 @@
 #include <iostream>
 #include <string>
 
+/*
 #pragma region Includes For Testing Only
 
 #include "SaveFunctions.h"
@@ -47,8 +55,10 @@
 #include "../DirectX/DirectXGraphics.h"
 #include "../FMOD/FMODAudio.h"
 #include "ResourceLibrary.h"
+//void ReportLiveDirectXObjects();
 
 #pragma endregion Includes For Testing Only
+*/
 
 using std::cout;
 using std::endl;
@@ -70,6 +80,11 @@ void AttachConsoleWindow()//Courtesy of chatgpt.
 
 void MessagesManagement(HINSTANCE hInstance, int* runningFlag);
 
+void InitGame()
+{
+	JustPressStartMain();
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
@@ -89,105 +104,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//Add Systems to the Engine here.
 	mainEngine->Add(ECS<Sprite>::GetInstance());
+	mainEngine->Add(ECS<TextSprite>::GetInstance());
 	mainEngine->Add(ECS<Physics>::GetInstance());
 	mainEngine->Add(ECS<Button>::GetInstance());
 	mainEngine->Add(ECS<AudioSource>::GetInstance());
-	//mainEngine->GetSourceObject()->AddComponent(Physics());
 
 	auto previousTime = std::chrono::high_resolution_clock::now();
 
-
-
-
-
-
-
-	::Stream objectStream = ::Stream("Data/TestObject.txt");
-	//::Stream spriteStream = ::Stream("Data/TestSprite.txt");
-	string bufferString;
-
-	//Sprite testSprite;
-
-	//testSprite.Load(&spriteStream);
-
-	FunctionLibrary<void, Button*>::LoadFunction("TestButtonFunction", [](Button* button) { button->GetParent()->GetComponent<AudioSource>()->Play(); });
-
-	Object* testObject = Engine::AddObject(Object());
-	testObject->Load(&objectStream);
-
-	objectStream.Clear();
-	testObject->Serialize(&bufferString);
-	objectStream.Write(bufferString);
-
-	//spriteStream.Close();
-	objectStream.Close();
-
-	//testObject->GetComponent<AudioSource>()->Play();
-
-
-
-
-
-	float matrixvalues[4][4] = { {1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16} };
-	auto matrix1 = Matrix<4, 4>(matrixvalues);
-	auto matrix2 = Matrix<4, 4>(matrixvalues);
-	auto identity = Matrix<4, 4>();
-	identity.Identity();
-	//matrix.Identity();
-	//auto transposeMatrix = matrix.GetTranspose();
-	string matrixString;
-
-	float vectorValues[] = { 1, 2, 3, 1 };
-	vectorValues;
-
-	matrix1.Identity();
-	matrix1.Translate(Vector<4>(vectorValues));
-	matrix2.Identity();
-	matrix2.RotDeg(90);
-
-	matrix2.ConcatInPlace(matrix1);
-
-	matrix2.Serialize(&matrixString);
-
-
-
-
-
-
-
-	//Stream soundStream = Stream("Data/TestSource.txt");
-	//string soundString;
-
-	////Sound const* testsound = ResourceLibrary<Sound>::Get("sample_beep.ogg");
-
-	//AudioSource source = AudioSource();
-
-	////source.Play();
-
-	//source.Load(&soundStream);
-
-	//source.Serialize(&soundString);
-
-	//soundStream.Write(soundString);
-
-	//soundStream.Close();
-
-	//source.Play();
-
-
-
-
-
-
-	
-	int a = 0;
-	++a;
-
-
-
-
-
-
+	InitGame();
 
 #pragma omp parallel sections
 	{
@@ -207,8 +131,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				running = mainEngine->Update(dt);
 
 				mainEngine->Render();
-
-				//running = 0;
 			}
 		}
 	}
@@ -233,3 +155,31 @@ void MessagesManagement(HINSTANCE hInstance, int* runningFlag)
 		}
 	}
 }
+
+//#include <dxgidebug.h>
+//
+//void ReportLiveDirectXObjects()
+//{
+//	// Load the debug interface
+//	using DXGIGetDebugInterfaceFn = HRESULT(WINAPI*)(REFIID, void**);
+//	HMODULE dxgidebug = LoadLibraryExW(L"dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
+//	if (!dxgidebug) return;
+//
+//	auto DXGIGetDebugInterface = reinterpret_cast<DXGIGetDebugInterfaceFn>(
+//		GetProcAddress(dxgidebug, "DXGIGetDebugInterface"));
+//	if (!DXGIGetDebugInterface)
+//	{
+//		FreeLibrary(dxgidebug);
+//		return;
+//	}
+//
+//	IDXGIDebug1* debug = nullptr;
+//	if (SUCCEEDED(DXGIGetDebugInterface(__uuidof(IDXGIDebug1), (void**)&debug)))
+//	{
+//		// This prints all live DXGI and D3D11 objects to the debug output
+//		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+//		debug->Release();
+//	}
+//
+//	FreeLibrary(dxgidebug);
+//}

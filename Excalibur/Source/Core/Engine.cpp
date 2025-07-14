@@ -117,6 +117,16 @@ void Engine::SetWindow(HWND const& WindowHandle)
 	EngineGraphicsEngine::SetWindow(WindowHandle);
 }
 
+unsigned int Engine::GetWindowWidth()
+{
+	return EnginePlatform::GetWindowWidth();
+}
+
+unsigned int Engine::GetWindowHeight()
+{
+	return EnginePlatform::GetWindowHeight();
+}
+
 Engine* Engine::GetSingleton()
 {
 	static Engine instance = Engine();

@@ -53,6 +53,8 @@ public:
 
 	float Get(unsigned int Dimension) { return dimensions[Dimension]; }
 
+	static constexpr unsigned int size() { return Dimensions; }
+
 private:
 
 	float dimensions [Dimensions];
@@ -79,6 +81,8 @@ public:
 	float X() const { return dimensions[0]; }
 
 	float Y() const { return dimensions[1]; }
+
+	static constexpr unsigned int size() { return _countof(dimensions); }
 
 private:
 
@@ -135,8 +139,28 @@ public:
 
 	float const& Z() const { return dimensions[2]; }
 
+	static constexpr unsigned int size() { return _countof(dimensions); }
+
 private:
 
 	float dimensions[3];
 
 };
+
+template<typename T>
+void VectorAddition(T& lhs, T const& rhs)
+{
+	for (unsigned int i = 0; i < T::size(); ++i)
+	{
+		lhs[i] += rhs[i];
+	}
+}
+
+template<typename T>
+void VectorMultiply(T& lhs, T const& rhs)
+{
+	for (unsigned int i = 0; i < T::size(); ++i)
+	{
+		lhs[i] *= rhs[i];
+	}
+}

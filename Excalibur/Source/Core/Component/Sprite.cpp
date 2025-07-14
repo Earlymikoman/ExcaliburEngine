@@ -34,20 +34,19 @@ Sprite::Sprite(unsigned int const& FrameIndex, float const& Alpha, Texture const
 
 void Sprite::Render()
 {
-	Transform* transform = parent->GetTransform();
+	Transform transform = parent->GetAdjustedTransform();
 
-	Engine::SetPosition(transform->GetPosition());
-	Engine::SetScale(transform->GetScale());
-	Engine::SetRotation(transform->GetRotation());
+	Engine::SetPosition(transform.GetPosition());
+	Engine::SetScale(transform.GetScale());
+	Engine::SetRotation(transform.GetRotation());
 
 	Engine::SetTexture(texture);
 
-	unsigned int numRows = texture->GetRows();
 	unsigned int numCols = texture->GetColumns();
-	float rowSize = texture->GetRowSize();
-	float colSize = texture->GetColumnSize();
+	float uSize = texture->GetUSize();
+	float vSize = texture->GetVSize();
 
-	Engine::SetTextureOffset(Vector<2>(rowSize * (frameIndex % numRows), colSize * (frameIndex / numCols)));
+	Engine::SetTextureOffset(Vector<2>(uSize * (frameIndex % numCols), vSize * (frameIndex / numCols)));
 
 	Engine::Draw(mesh, DrawMode::TEXTURE);
 }

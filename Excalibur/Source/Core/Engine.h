@@ -80,6 +80,10 @@ public:
 
 	static void SetWindow(HWND const& WindowHandle);
 
+	static unsigned int GetWindowWidth();
+
+	static unsigned int GetWindowHeight();
+
 	//void SetPlatform(Platform* Platform) { platform = Platform; }
 
 	//static Mesh* LoadMesh(string const& Name);

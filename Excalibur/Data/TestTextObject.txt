@@ -1,0 +1,4 @@
+TextSprite:
+	Alpha: 1.000000
+	Font: Fonts/Roboto_Mono_white_{8x16}.png
+	Text: [<s>]Test![<s>]

@@ -54,21 +54,16 @@ void Button::HandleMessage(Message* message)
 		//NamedMultiField<NamedField<char>, NamedField<Vector<3>>>* dataPointer = (NamedMultiField<NamedField<char>, NamedField<Vector<3>>>*)message->GetResources();
 		NamedMultiField<NamedField<char>, NamedField<Vector<3>>>* messageData = (NamedMultiField<NamedField<char>, NamedField<Vector<3>>>*)message->GetResources();
 
-		Transform* parentTransform = parent->GetTransform();
-		auto const& parentPos = parentTransform->GetPosition();
-		auto const& parentScale = parentTransform->GetScale();
+		Transform parentTransform = parent->GetAdjustedTransform();
+		/*auto const& parentPos = parentTransform->GetPosition();
+		auto const& parentScale = parentTransform->GetScale();*/
 		//auto const& parentRotation = parentTransform->GetRotation();
 
 		Vector<3> const* mousePos = (Vector<3> const*)messageData->GetValue("MousePosition");
 
-		cout << mousePos->X() << "\n" << mousePos->Y() << "\n\n";
+		//cout << mousePos->X() << "\n" << mousePos->Y() << "\n\n";
 
-		if (
-			mousePos->X() > (parentPos.X() - (parentScale.X() / 2))
-			&& mousePos->X() < (parentPos.X() + (parentScale.X() / 2))
-			&& mousePos->Y() > (parentPos.Y() - (parentScale.Y() / 2))
-			&& mousePos->Y() < (parentPos.Y() + (parentScale.Y() / 2))
-			)
+		if (parentTransform.PointOver(*mousePos))
 		{
 			function.GetFunction()(this);
 		}

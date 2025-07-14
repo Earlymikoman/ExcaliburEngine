@@ -45,6 +45,8 @@ protected:
 
 public:
 
+	void Clone(Component const& rhs) { /*Object* Parent = parent; */*this = rhs;/* parent = Parent;*/ }
+
 	/*void Save(string const& filepath);
 
 	void Load(string const& filepath);*/

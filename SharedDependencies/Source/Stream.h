@@ -40,11 +40,15 @@ public:
 
 	void Write(string const& Data);
 
+	void GetChar(char* const& Output);
+
 	void Read(string* const& Output);
 
 	void ReadLine(string* const& Output);
 
 	void ReadToken(string* const& Output);
+
+	void ReadFormatString(string* const& Output);
 
 	void Reset();
 
@@ -68,6 +72,8 @@ public:
 
 		return 1;
 	}
+
+	static void FormatString(string* Output, string const& Data);
 
 	string GetName() const { return filename; }
 

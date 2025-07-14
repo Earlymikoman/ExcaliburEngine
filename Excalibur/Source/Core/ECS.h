@@ -101,6 +101,10 @@ public:
 
 	virtual void Serialize(Component const& Object, string* Output) const = 0;
 
+	virtual ComponentAccessInfo AddComponent(Component const& Component, UpdateLayer const& Layer) = 0;
+
+	virtual void CloneInto(ComponentAccessInfo const& copee, ComponentAccessInfo const& coper) = 0;
+
 };
 
 template<typename T>
@@ -119,6 +123,11 @@ public:
 		return &instance;
 	}
 
+	void CloneInto(ComponentAccessInfo const& copee, ComponentAccessInfo const& coper) override
+	{
+		((T*)copee.GetPointer())->Clone(*((T*)coper.GetPointer()));
+	}
+
 	void Serialize(Component const& Object, string* Output) const override
 	{
 		((T const&)Object).Serialize(Output);
@@ -126,6 +135,8 @@ public:
 
 	void Update(double& dt) override
 	{
+		dt;
+
 		EnactRemovalBuffer();
 
 		TakeRecipesSnapshot();
@@ -168,9 +179,9 @@ public:
 
 #pragma region Setters
 
-	ComponentAccessInfo AddComponent(T const& Component, UpdateLayer const& Layer)
+	ComponentAccessInfo AddComponent(Component const& Component, UpdateLayer const& Layer) override
 	{
-		JiveIndex componentIndex = components[Layer].Add(Component);
+		JiveIndex componentIndex = components[Layer].Add((T const&)Component);
 		return ComponentAccessInfo(&components[Layer][componentIndex], Layer, componentIndex);
 	}
 
@@ -178,10 +189,10 @@ public:
 	{
 		removalBuffer.push_back(AccessInfo);
 	}
-	void RemoveComponent(T const& Component)
-	{
-		//components->Remove(&Component);
-	}
+	//void RemoveComponent(T const& Component)
+	//{
+	//	//components->Remove(&Component);
+	//}
 
 private:
 

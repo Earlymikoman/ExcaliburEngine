@@ -48,9 +48,13 @@ public:
 
 	void SetFrameIndex(unsigned int const& Index) { frameIndex = Index; }
 
+	void SetMesh(Mesh const* const& Mesh) { mesh = Mesh; }
+
 #pragma endregion
 
 #pragma region Getters
+
+	Mesh const* const& GetMesh() { return mesh; }
 
 #pragma endregion
 

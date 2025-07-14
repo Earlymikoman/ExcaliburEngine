@@ -1,0 +1,18 @@
+Object: 
+	Transform:
+		Position: [0.000000|0.000000|0.000000]
+		Rotation: 0.000000
+		Scale: [64.000000|48.000000|0.000000]
+	Components: 3:
+		Sprite:
+			Frame Index: 0
+			Alpha: 1.000000
+			Texture: StartButton.png
+			Mesh: 1x1Mesh.txt
+		Button:
+			Function: StartClicked		
+		AudioSource:
+			Channel:
+				FMODChannel: 0
+			Sound: sample_beep.ogg
+	Children: 0:

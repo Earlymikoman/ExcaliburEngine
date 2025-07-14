@@ -29,6 +29,13 @@ class Transform : public ComponentWithType<cTransform>
 {
 public:
 
+	Transform& operator+=(Transform const& rhs);
+
+	void AddPosition(Vector<3> const& posVector);
+	void AddRotation(float const& posVector);
+	void AddScale(Vector<3> const& posVector);
+	void MultiplyScale(Vector<3> const& posVector);
+
 	void Serialize(string* Output) const;
 
 	//void Save(string const& filepath) const;
@@ -40,6 +47,8 @@ public:
 	void Render() {}
 
 	void HandleMessage(Message* message);
+
+	char PointOver(Vector<3> const& point);
 
 	Vector<3> const& GetPosition() const { return position; }
 

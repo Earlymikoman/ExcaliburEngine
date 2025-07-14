@@ -65,6 +65,7 @@ void FMODAudio::PlaySound(Sound const& sound, Channel* channel)
 
 	FMOD_RESULT result = FMOD_System_PlaySound(FMODAudio::fmodSystem, sound.GetFMODSound(), 0, 1, fmodchannel);
 	assert(FMODRESULTCHECK(result) && "FMOD Failed To Play Sound! Check AudioSystem!");
+	result;
 
 	/*float pitch;
 	FMOD_Channel_GetPitch(*fmodchannel, &pitch);
@@ -88,6 +89,7 @@ Sound* FMODAudio::LoadSound(string const& Name)
 
 	FMOD_RESULT result = FMOD_System_CreateSound(FMODAudio::fmodSystem, filepath.c_str(), FMOD_2D, 0, &sound);
 	assert(FMODRESULTCHECK(result) && "Forced Program Shutdown! FMOD Failed To Load Sound! Check AudioSystem!");
+	result;
 
 	return new Sound(Name, sound);
 }

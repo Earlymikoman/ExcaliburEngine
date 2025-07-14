@@ -44,8 +44,8 @@ public:
 	unsigned int const& GetRows() const { return rows; }
 	unsigned int const& GetColumns() const { return columns; }
 
-	float GetRowSize() const { return 1.f / rows; };
-	float GetColumnSize() const { return 1.f / columns; };
+	float GetUSize() const { return 1.f / columns; };
+	float GetVSize() const { return 1.f / rows; };
 
 private:
 

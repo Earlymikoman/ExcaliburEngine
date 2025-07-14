@@ -78,7 +78,11 @@ public:
 
 	Transform* const& GetTransform() const { return transform; }
 
-	std::vector<Object*> const& GetChildren() const;
+	Transform GetAdjustedTransform() const;
+
+	Object* const& GetParent() const { return parent; }
+
+	std::vector<Object*> const& GetChildren() const { return children; }
 	
 	std::vector<ComponentID*> const& GetComponents() const;
 
@@ -104,19 +108,30 @@ public:
 		return (T*)components.find(ECS<T>::GetInstance())->second.GetPointer();
 	}
 
+	template<typename T>
+	void RemoveComponent()
+	{
+		assert((components.find(ECS<T>::GetInstance()) != components.end()) && "Couldn't Find Component in Object.RemoveComponent().");
+		ECS<T>* componentSystemInstance = ECS<T>::GetInstance();
+
+		componentSystemInstance->RemoveComponent(components.find(ECS<T>::GetInstance())->second);
+
+		components.erase(componentSystemInstance);
+	}
+
 	void AddChild(Object* const& ObjectToAdd) { children.push_back(ObjectToAdd); ObjectToAdd->SetParent(this); }
 
 	void SetParent(Object* const& Parent) { parent = Parent; }
 
 private:
 
-	Object(vector<Object*> const& Children, unordered_map<System*, ComponentAccessInfo> const& Components);
+	Object(vector<Object*> const& Children, unordered_map<VirtualECS*, ComponentAccessInfo> const& Components);
 
 	Object* parent;
 
 	Transform* transform;
 
 	vector<Object*> children;
-	unordered_map<System*, ComponentAccessInfo> components;
+	unordered_map<VirtualECS*, ComponentAccessInfo> components;
 
 };

@@ -159,7 +159,7 @@ bool DirectXData::InitializeGraphics()
     UINT flags = D3D11_CREATE_DEVICE_SINGLETHREADED;
     // If in debug mode, add the debug flag
 #if defined(DEBUG) || defined(_DEBUG)
-    //flags |= D3D11_CREATE_DEVICE_DEBUG;
+    flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
     // Create swap chain description struct and set the memory to zero
@@ -195,6 +195,19 @@ bool DirectXData::InitializeGraphics()
         // Return false to indicate something went wrong
         return false;
     }
+
+
+
+
+	//ChatGPT
+	IDXGIDevice1* dxgiDev1 = nullptr;
+	if (SUCCEEDED(Device->QueryInterface(__uuidof(IDXGIDevice1), (void**)&dxgiDev1)))
+	{
+		dxgiDev1->SetMaximumFrameLatency(1);
+		dxgiDev1->Release();
+	}
+
+
 
 
     // *******************************************************************************************
@@ -384,7 +397,7 @@ bool DirectXData::InitializeGraphics()
     // Other common settings are point filtering and wrapping or mirroring the texture
     sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
     sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT/*D3D11_FILTER_MIN_MAG_MIP_LINEAR*/;
     sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
     sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
     sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -499,8 +512,12 @@ void DirectXData::ShutDownGraphics()
 void DirectXData::StartDrawing()
 {
 	// Clear the render target with the background color
-	//float backgroundColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
-	//DeviceContext->ClearRenderTargetView(RenderTargetView, backgroundColor);
+	float backgroundColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	DeviceContext->ClearRenderTargetView(RenderTargetView, backgroundColor);
+
+	/*ID3D11RenderTargetView* nullRTV[1] = { nullptr };
+	DeviceContext->OMSetRenderTargets(1, nullRTV, nullptr);*/
+	
 	// Set the input layout
 	DeviceContext->IASetInputLayout(InputLayout);
 	// Set the render target
@@ -518,6 +535,12 @@ void DirectXData::Draw(Mesh const* MeshToDraw, DrawMode const& Mode)
 	//DeviceContext->OMSetRenderTargets(1, &RenderTargetView, NULL);
 
 	HRESULT hr;
+
+	if (VertexBuffer)
+	{
+		VertexBuffer->Release();
+		VertexBuffer = nullptr;
+	}
 
 	// Create a vertex buffer description struct and set the memory to zero
 	D3D11_BUFFER_DESC vertexBufferDesc = { 0 };
@@ -607,6 +630,8 @@ void DirectXData::Draw(Mesh const* MeshToDraw, DrawMode const& Mode)
 void DirectXData::FinishDrawing()
 {
 	SwapChain->Present(1, 0);
+	//Sleep(16);
+	//SwapChain->Present(0, DXGI_PRESENT_DO_NOT_WAIT);
 }
 
 void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, float* worldY)
