@@ -33,7 +33,10 @@ enum TypeEnum
 	cAnimation,
 	cCollider,
 	cButton,
+	cRepulsor,
 	cAudioSource,
+
+	cTeleporter,//To be replaced by proper code in the future
 
 	cALL//WTF does that even mean? It means don't use this.
 };

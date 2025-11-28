@@ -29,6 +29,8 @@ class Transform : public ComponentWithType<cTransform>
 {
 public:
 
+	void Clone(Transform const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
+
 	Transform& operator+=(Transform const& rhs);
 
 	void AddPosition(Vector<3> const& posVector);

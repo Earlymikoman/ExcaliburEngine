@@ -50,6 +50,10 @@ public:
 
     static InputSystem<char>* GetInputSystem() { return &inputSystem; }
 
+	static void CornerToCenterCoords(Vector<3>* IO);
+
+	static Vector<3> GetCursorPosition();
+
     static HINSTANCE GetAppInstance() { return mAppInstance; }
     static const char* GetWindowTitle() { return mWindowTitle; }
 	static unsigned int GetWindowWidth() { return mWindowWidth; }

@@ -38,6 +38,15 @@ void JustPressStartMain()
 
 #pragma endregion Button Function Loading
 
+	/*Stream backdropObjectStream = Stream("Data/JustPressStartBackdrop.txt");
+
+	Object* backdropObject = Engine::AddObject(Object());
+
+	backdropObject->Load(&backdropObjectStream);
+
+	backdropObjectStream.Close();*/
+
+
 
 	Stream startObjectStream = Stream("Data/'Start'Button.txt");
 
@@ -46,4 +55,6 @@ void JustPressStartMain()
 	startObject->Load(&startObjectStream);
 
 	startObjectStream.Close();
+
+	//backdropObject->AddChild(startObject);
 }

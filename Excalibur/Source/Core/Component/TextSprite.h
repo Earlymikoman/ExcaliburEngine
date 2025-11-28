@@ -36,6 +36,8 @@ public:
 
 	TextSprite(Texture const* const& Font, string const& Text, float Alpha = 1);
 
+	void Clone(TextSprite const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
+
 	void Serialize(string* Output) const;
 
 	void Load(Stream* openStream);

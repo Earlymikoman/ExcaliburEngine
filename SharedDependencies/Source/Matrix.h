@@ -234,9 +234,23 @@ public:
 		*this = concatMatrix;
 	}
 
-	Vector<Columns> VectorProduct(Vector<Columns> const& other)
+	Vector<Rows> VectorProduct(Vector<Rows> const& other)
 	{
-		other;
+		auto concatVector = Vector<Rows>();
+
+		for (int i = 0; i < Rows; i++)
+		{
+			float total = 0;
+
+			for (int k = 0; k < Columns; k++)
+			{
+				total += this->matrix[i][k] * other[i];
+			}
+
+			concatVector[i] = total;
+		}
+
+		return concatVector;
 	}
 
 private:

@@ -19,9 +19,13 @@
 #include "ButtonProgression.h"
 
 #include "../../../SharedDependencies/Source/Random.h"
+#include "../../../SharedDependencies/Source/CustomStringFunctions.h"
 #include "../Core/Component/Button.h"
 #include "../Core/Component/Transform.h"
 #include "../Core/Component/Sprite.h"
+#include "../Core/Component/Repulsor.h"
+#include "../Core/Component/Physics.h"
+#include "../Core/Component/Teleporter.h"
 #include "../Core/Object.h"
 #include "../Core/Engine.h"
 #include "../Core/Mesh.h"
@@ -35,8 +39,14 @@ using std::vector;
 
 void Teleport(Button* button);
 void Split(Button* button);
+void Camouflage(Button* button);
+void Decamouflage(Object* buttonObject);
+void Cascade(Button* button);
+void Repulse(Button* button);
+void RemoveRepulse(Button* button);
+void RunAcross(Button* button);
 
-static int progressionLevel = 0;
+static int progressionLevel = 5;
 
 void ButtonProgression(Button* button)
 {
@@ -44,12 +54,27 @@ void ButtonProgression(Button* button)
 	{
 		{
 			&Teleport
-			,& Split
 		}
 
-		/*, {
-			
-		}*/
+		, {
+			&Split
+		}
+
+		, {
+			&Camouflage
+		}
+
+		, {
+			&Repulse
+		}
+
+		, {
+			&RemoveRepulse
+		}
+
+		, {
+			&RunAcross
+		}
 	};
 
 	assert(DodgeFunctions[progressionLevel].size() && "Empty Progression Level!");
@@ -57,19 +82,31 @@ void ButtonProgression(Button* button)
 	DodgeFunctions[progressionLevel][RandomRange(0, (int)DodgeFunctions[progressionLevel].size() - 1)](button);
 }
 
+void Reset(Object* buttonObject)
+{
+	buttonObject->GetTransform()->SetPosition(Vector<3>());
+}
+
 void Teleport(Button* button)
 {
-	//++progressionLevel;
+	static int presses = 0;
+	if (++presses >= 3)
+	{
+		presses = 0;
+		++progressionLevel;
+	}
 
 	Transform* buttonTransform = button->GetParent()->GetTransform();
+	Transform adjustTransform = button->GetParent()->GetAdjustedTransform();
+
 	Vector<3> halfWindowSize = Vector<3>(Engine::GetWindowWidth() / 2.f, Engine::GetWindowHeight() / 2.f);
 
-	Vector<3> minValues = Vector<3>(-halfWindowSize.X() + buttonTransform->GetScale().X(), -halfWindowSize.Y() + buttonTransform->GetScale().Y());
-	Vector<3> maxValues = Vector<3>(halfWindowSize.X() - buttonTransform->GetScale().X(), halfWindowSize.Y() - buttonTransform->GetScale().Y());
+	Vector<3> minValues = Vector<3>(-halfWindowSize.X() + adjustTransform.GetScale().X(), -halfWindowSize.Y() + adjustTransform.GetScale().Y());
+	Vector<3> maxValues = Vector<3>(halfWindowSize.X() - adjustTransform.GetScale().X(), halfWindowSize.Y() - adjustTransform.GetScale().Y());
 
 	Vector<3> randomPos = Vector<3>(RandomRangeFloat(minValues.X(), maxValues.X()), RandomRangeFloat(minValues.Y(), maxValues.Y()));
 
-	while (buttonTransform->PointOver(randomPos))
+	while (adjustTransform.PointOver(randomPos))
 	{
 		randomPos = Vector<3>(RandomRangeFloat(minValues.X(), maxValues.X()), RandomRangeFloat(minValues.Y(), maxValues.Y()));
 	}
@@ -79,7 +116,40 @@ void Teleport(Button* button)
 
 void Split(Button* button)
 {
-	//--progressionLevel;
+	static int presses = 0;
+	if (++presses >= 8)
+	{
+		presses = 0;
+		++progressionLevel;
+		
+		vector<string> substrings;
+		Object* CurObject = button->GetParent();
+		
+		SplitString(&substrings, button->GetParent()->GetComponent<Sprite>()->GetMesh()->GetName(), vector<string>{"HT}_", "HB}_"});
+		for (int i = 0; i < substrings.size() - 1; ++i)
+		{
+			CurObject = CurObject->GetParent();
+		}
+
+		CurObject->AddComponent(Sprite(), button->GetParent()->GetComponents().find((VirtualECS*)ECS<Sprite>::GetInstance())->second.GetLayer());
+		CurObject->AddComponent(Button(), button->GetParent()->GetComponents().find((VirtualECS*)ECS<Button>::GetInstance())->second.GetLayer());
+
+		CurObject->GetComponent<Sprite>()->Clone(*button->GetParent()->GetComponent<Sprite>());
+		CurObject->GetComponent<Sprite>()->SetMesh(ResourceLibrary<Mesh>::Get(substrings[substrings.size() - 1]));
+		CurObject->GetComponent<Button>()->Clone(*button);
+
+		for (int i = (int)CurObject->GetChildren().size() - 1; i >= 0; --i)
+		{
+			Engine::RemoveObject(CurObject->GetChildren()[i]->GetEngineIndex());
+		}
+
+		//Camouflage(CurObject->GetComponent<Button>());
+
+		Decamouflage(CurObject);
+		Reset(CurObject);
+
+		return;
+	}
 
 	Object* mainParent = button->GetParent();
 	Transform* mainTransform = mainParent->GetTransform();
@@ -136,11 +206,11 @@ void Split(Button* button)
 	topObject;
 	bottomObject;
 
-	button->GetParent()->AddChild(topObject);
-	button->GetParent()->AddChild(bottomObject);
-
 	topObject->Clone(*mainParent);
 	bottomObject->Clone(*mainParent);
+
+	button->GetParent()->AddChild(topObject);
+	button->GetParent()->AddChild(bottomObject);
 
 	Transform* topTransform = topObject->GetTransform();
 	Transform* bottomTransform = bottomObject->GetTransform();
@@ -158,4 +228,78 @@ void Split(Button* button)
 
 	mainParent->RemoveComponent<Sprite>();
 	mainParent->RemoveComponent<Button>();
+}
+
+void Camouflage(Button* button)
+{
+	button;
+	progressionLevel = 0;
+
+	Object* backdrop = button->GetParent()->GetParent();
+	backdrop->GetComponent<Sprite>()->SetTexture(ResourceLibrary<Texture>::Get("CamoBackdrop.png"));
+
+	button->GetParent()->GetComponent<Sprite>()->SetTexture(ResourceLibrary<Texture>::Get("CamoStartButton.png"));
+
+	ButtonProgression(button);
+}
+
+void Decamouflage(Object* buttonObject)
+{
+	buttonObject;
+	//progressionLevel = 0;
+
+	Object* backdrop = buttonObject->GetParent();
+	backdrop->GetComponent<Sprite>()->SetTexture(ResourceLibrary<Texture>::Get("DefaultBackdrop.png"));
+
+	buttonObject->GetComponent<Sprite>()->SetTexture(ResourceLibrary<Texture>::Get("StartButton.png"));
+
+	//ButtonProgression(button);
+}
+
+void Cascade(Button* button)
+{
+	button;
+}
+
+void Repulse(Button* button)
+{
+	++progressionLevel;
+
+	Transform adjustTransform = button->GetParent()->GetAdjustedTransform();
+
+	Vector<3> halfWindowSize = Vector<3>(Engine::GetWindowWidth() / 2.f, Engine::GetWindowHeight() / 2.f);
+
+	Vector<3> minValues = Vector<3>(-halfWindowSize.X() + adjustTransform.GetScale().X() / 2, -halfWindowSize.Y() + adjustTransform.GetScale().Y() / 2);
+	Vector<3> maxValues = Vector<3>(halfWindowSize.X() - adjustTransform.GetScale().X() / 2, halfWindowSize.Y() - adjustTransform.GetScale().Y() / 2);
+
+	//Transform adjustedTransform = Engine::GetCursorObject()->GetAdjustedTransform();
+	button->GetParent()->AddComponent(Repulsor(Vector<4>(array{ minValues.X(), maxValues.X(), minValues.Y(), maxValues.Y() }), Engine::GetCursorObject(), 100000000));
+}
+
+void RemoveRepulse(Button* button)
+{
+	progressionLevel = 0;
+
+	Reset(button->GetParent());
+	button->GetParent()->RemoveComponent<Repulsor>();
+}
+
+void RunAcross(Button* button)
+{
+	Transform adjustTransform = button->GetParent()->GetAdjustedTransform();
+
+	Vector<3> halfWindowSize = Vector<3>(Engine::GetWindowWidth() / 2.f, Engine::GetWindowHeight() / 2.f);
+
+	Vector<3> minValues = Vector<3>(-halfWindowSize.X() + adjustTransform.GetScale().X() / 1, -halfWindowSize.Y() + adjustTransform.GetScale().Y() / 1);
+	Vector<3> maxValues = Vector<3>(halfWindowSize.X() - adjustTransform.GetScale().X() / 1, halfWindowSize.Y() - adjustTransform.GetScale().Y() / 1);
+
+	button->GetParent()->AddComponent(Teleporter(Vector<4>({ minValues.X(), maxValues.X(), minValues.Y(), maxValues.Y() }), 
+		{
+			Vector<4>({-250, 250, -250, -250})
+			, Vector<4>({-250, -250, 250, -250})
+			, Vector<4>({250, -250, 250, 250})
+			, Vector<4>({250, 250, -250, 250})
+		}));
+
+	button->GetParent()->GetComponent<Physics>()->SetVelocity(Vector<3>(1000, 0, 0));
 }

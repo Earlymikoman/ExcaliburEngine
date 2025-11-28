@@ -39,6 +39,8 @@ public:
 		, float const& Drag = 0
 	);
 
+	void Clone(Physics const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
+
 	void Serialize(string* Output) const;
 
 	void Load(Stream* openStream);

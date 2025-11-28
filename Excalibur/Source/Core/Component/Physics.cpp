@@ -18,6 +18,8 @@
 
 #include "Physics.h"
 
+#include "../Object.h"
+
 #include <iostream>
 
 using std::cout;
@@ -41,9 +43,20 @@ Physics::Physics
 
 void Physics::Update(double& dt)
 {
-	dt;
+	oldTranslation = this->GetParent()->GetTransform()->GetPosition();
 
-	cout << "Updated Physics" << endl;
+	Vector<3> timedAcceleration = acceleration;
+	Vector<3> timedVelocity = velocity;
+
+	VectorScale(timedAcceleration, (float)dt);
+	VectorAddition(velocity, timedAcceleration);
+
+	VectorScale(timedVelocity, (float)dt);
+
+	Vector<3> newPosition = oldTranslation;
+	VectorAddition(newPosition, timedVelocity);
+
+	this->GetParent()->GetTransform()->SetPosition(newPosition);
 }
 
 void Physics::Render()

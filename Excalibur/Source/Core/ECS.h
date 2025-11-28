@@ -105,6 +105,8 @@ public:
 
 	virtual void CloneInto(ComponentAccessInfo const& copee, ComponentAccessInfo const& coper) = 0;
 
+	virtual void RemoveComponent(ComponentAccessInfo const& AccessInfo) = 0;
+
 };
 
 template<typename T>
@@ -185,7 +187,7 @@ public:
 		return ComponentAccessInfo(&components[Layer][componentIndex], Layer, componentIndex);
 	}
 
-	void RemoveComponent(ComponentAccessInfo& AccessInfo)
+	void RemoveComponent(ComponentAccessInfo const& AccessInfo)
 	{
 		removalBuffer.push_back(AccessInfo);
 	}

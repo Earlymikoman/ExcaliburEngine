@@ -33,9 +33,11 @@ typedef FMODAudio EngineAudioEngine;
 
 //EngineGraphicsEngine::SetWindow(HWND const& windowHandle);
 
-Jive<Object, OBJECT_JIVE_SIZE> Engine::objects = Jive<Object, OBJECT_JIVE_SIZE>(vector<Object>{Object()});
+Jive<Object, OBJECT_JIVE_SIZE> Engine::objects = Jive<Object, OBJECT_JIVE_SIZE>(vector<Object>{});
 
 vector<System*> Engine::systems = vector<System*>();
+
+Object Engine::cursor = Object();
 
 Engine::Engine()
 	//: source(Object::CreateObject())
@@ -66,6 +68,9 @@ int Engine::Update(double& dt)
 	dt;
 
 	EnginePlatform::Update(dt);
+
+	cursor.GetTransform()->SetPosition(EnginePlatform::GetCursorPosition());
+	cout << "Cursor: " << cursor.GetTransform()->GetPosition().X() << " " << cursor.GetTransform()->GetPosition().Y() << endl << endl;
 
 	for (int i = 0; i < systems.size(); ++i)
 	{
@@ -109,12 +114,44 @@ void Engine::Add(System* system)
 
 Object* Engine::AddObject(Object const& object)
 {
-	return &objects[objects.Add(object)];
+	JiveIndex index = objects.Add(object);
+
+	Object* realObject = &objects[index];
+	realObject->SetEngineIndex(index);
+
+	return realObject;
+}
+
+void Engine::RemoveObject(JiveIndex index)
+{
+	for (int i = (int)objects[index].GetChildren().size() - 1; i >= 0; --i)
+	{
+		RemoveObject(objects[index].GetChildren()[i]->GetEngineIndex());
+	}
+
+	if (objects[index].GetParent())
+	{
+		objects[index].GetParent()->RemoveChild(&objects[index]);
+	}
+
+	for (auto& componentPair : objects[index].GetComponents())
+	{
+		componentPair.first->RemoveComponent(componentPair.second);
+	}
+
+	objects[index].Deallocate();
+
+	objects.Remove(index);
 }
 
 void Engine::SetWindow(HWND const& WindowHandle)
 {
 	EngineGraphicsEngine::SetWindow(WindowHandle);
+}
+
+HWND const& Engine::GetCurrentWindow()
+{
+	return EngineGraphicsEngine::GetCurrentWindow();
 }
 
 unsigned int Engine::GetWindowWidth()

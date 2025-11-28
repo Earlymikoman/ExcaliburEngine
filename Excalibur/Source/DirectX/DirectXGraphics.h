@@ -132,6 +132,8 @@ public:
 
 	static void SetWindow(HWND const& windowHandle) { WindowHandle = windowHandle; }
 
+	static HWND const& GetCurrentWindow() { return WindowHandle; }
+
 private:
 
 	static HWND WindowHandle;

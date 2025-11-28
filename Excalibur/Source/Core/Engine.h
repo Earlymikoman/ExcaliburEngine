@@ -70,6 +70,8 @@ public:
 
 	static void Add(System* system);
 
+	static void RemoveObject(JiveIndex index);
+
 	static Engine* GetSingleton();
 
 	static auto const& GetSourceObject() { return objects; }
@@ -80,9 +82,13 @@ public:
 
 	static void SetWindow(HWND const& WindowHandle);
 
+	static HWND const& GetCurrentWindow();
+
 	static unsigned int GetWindowWidth();
 
 	static unsigned int GetWindowHeight();
+
+	static Object* GetCursorObject() { return &cursor; }
 
 	//void SetPlatform(Platform* Platform) { platform = Platform; }
 
@@ -110,5 +116,7 @@ private:
 	static Jive<Object, OBJECT_JIVE_SIZE> objects;
 
 	static vector<System*> systems;
+
+	static Object cursor;
 
 };

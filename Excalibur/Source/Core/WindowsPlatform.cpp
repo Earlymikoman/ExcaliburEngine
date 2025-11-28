@@ -238,10 +238,9 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
 		GetCursorPos(&mousePos);
 		ScreenToClient(hWnd, &mousePos);*/
 
-		Vector<3> mousePos = Vector<3>( (float)GET_X_LPARAM(lParam),  -(float)GET_Y_LPARAM(lParam), 0.0f);
+		Vector<3> mousePos = Vector<3>( (float)GET_X_LPARAM(lParam),  (float)GET_Y_LPARAM(lParam), 0.0f);
 
-		mousePos.X() -= WindowsPlatform::GetInstance()->GetWindowWidth() / 2;
-		mousePos.Y() += WindowsPlatform::GetInstance()->GetWindowHeight() / 2;
+	    WindowsPlatform::CornerToCenterCoords(&mousePos);
 		//ScreenToClient(hWnd, &mousePos);
 
 		WindowsPlatform::GetInstance()->GetInputSystem()->MouseDown(VK_LBUTTON, Vector<3>((float)mousePos.X(), (float)mousePos.Y(), 0.0f));
@@ -280,7 +279,28 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
+
     return 0;
+}
+
+void WindowsPlatform::CornerToCenterCoords(Vector<3>* IO)
+{
+	IO->X() -= WindowsPlatform::GetInstance()->GetWindowWidth() / 2;
+	IO->Y() = -IO->Y();
+	IO->Y() += WindowsPlatform::GetInstance()->GetWindowHeight() / 2;
+}
+
+Vector<3> WindowsPlatform::GetCursorPosition()
+{
+	POINT cursorPos;
+
+	GetCursorPos(&cursorPos);
+	ScreenToClient(Engine::GetCurrentWindow(), &cursorPos);
+
+	Vector<3> position = Vector<3>((float)cursorPos.x, (float)cursorPos.y);
+	CornerToCenterCoords(&position);
+
+	return position;
 }
 
 //Mesh* WindowsPlatform::LoadMesh(string const& Name, vector<VertexData> const& Vertices)

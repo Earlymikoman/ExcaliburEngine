@@ -28,6 +28,8 @@
 #include "Component/TextSprite.h"
 #include "Component/Button.h"
 #include "Component/AudioSource.h"
+#include "Component/Repulsor.h"
+#include "Component/Teleporter.h"
 //#include "../../../SharedDependencies/Source/StringConvert.h"
 #include "ECS.h"
 #include "../../../SharedDependencies/Source/CustomStringFunctions.h"
@@ -139,6 +141,7 @@ void Object::Serialize(string* Output) const
 
 	IncrementTab(-1);
 }
+
 void Transform::Serialize(string* Output) const
 {
 	string tempString = string(/*"\n"*/);
@@ -166,8 +169,24 @@ void Transform::Serialize(string* Output) const
 
 void Physics::Serialize(string* Output) const
 {
-	Output;
-	string tempString = string("\n");
+	string& tempString = *Output;
+
+	tempString.append("Physics:\n");
+	IncrementTab();
+
+	tempString.append(Tab() + "Acceleration: ");
+	acceleration.Serialize(&tempString);
+	tempString.append("\n");
+
+	tempString.append(Tab() + "Velocity: ");
+	velocity.Serialize(&tempString);
+	tempString.append("\n");
+
+	tempString.append(Tab() + "Rotational Velocity: " + std::to_string(rotationalVelocity) + "\n");
+
+	tempString.append(Tab() + "Drag: " + std::to_string(drag) + "\n");
+
+	IncrementTab(-1);
 }
 
 void Sprite::Serialize(string* Output) const
@@ -217,6 +236,25 @@ void Button::Serialize(string* Output) const
 	tempString.append(Tab() + "Function: " + function.GetName() + "\n");
 
 	IncrementTab(-1);
+}
+
+void Repulsor::Serialize(string* Output) const
+{
+	Output;
+	
+	/*string& tempString = *Output;
+
+	tempString.append("Button:\n");
+	IncrementTab();
+
+	tempString.append(Tab() + "Function: " + function.GetName() + "\n");
+
+	IncrementTab(-1);*/
+}
+
+void Teleporter::Serialize(string* Output) const
+{
+	Output;
 }
 
 void AudioSource::Serialize(string* Output) const

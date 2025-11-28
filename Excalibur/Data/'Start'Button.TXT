@@ -10,9 +10,10 @@ Object:
 			Texture: StartButton.png
 			Mesh: 1x1Mesh.txt
 		Button:
-			Function: StartClicked		
-		AudioSource:
-			Channel:
-				FMODChannel: 0
-			Sound: sample_beep.ogg
+			Function: StartClicked	
+		Physics:
+			Acceleration: [0.000000|0.000000|0.000000]
+			Velocity: [0.000000|0.000000|0.000000]
+			Rotational Velocity: 0
+			Drag: 0
 	Children: 0:

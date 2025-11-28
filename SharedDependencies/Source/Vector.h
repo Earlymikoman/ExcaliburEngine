@@ -21,10 +21,13 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <cassert>
+#include <array>
 
 using std::string;
 using std::cout;
 using std::endl;
+using std::array;
 
 template<unsigned int Dimensions>
 class Vector
@@ -33,12 +36,9 @@ public:
 
 	Vector() = default;
 
-	Vector(float const Dim[Dimensions])
+	Vector(array<float, Dimensions> const& Array)
 	{
-		for (int i = 0; i < Dimensions; ++i)
-		{
-			dimensions[i] = Dim[i];
-		}
+		dimensions = Array;
 	}
 
 	float const& operator[](unsigned int index) const
@@ -57,7 +57,7 @@ public:
 
 private:
 
-	float dimensions [Dimensions];
+	array<float, Dimensions> dimensions;
 
 };
 
@@ -82,11 +82,11 @@ public:
 
 	float Y() const { return dimensions[1]; }
 
-	static constexpr unsigned int size() { return _countof(dimensions); }
+	static constexpr unsigned int size() { return 2; }
 
 private:
 
-	float dimensions[2];
+	array<float, 2> dimensions;
 
 };
 
@@ -97,7 +97,7 @@ public:
 
 	Vector(float X = 0, float Y = 0, float Z = 0) : dimensions{ X, Y, Z } 
 	{
-		cout << "called constructor" << endl;
+		//cout << "called constructor" << endl;
 		int a = 0;
 		++a;
 	};
@@ -116,7 +116,7 @@ public:
 	{
 		Output->append("[");
 
-		for (int i = 0; i < _countof(dimensions); ++i)
+		for (int i = 0; i < 3; ++i)
 		{
 			Output->append(std::to_string(dimensions[i]));
 
@@ -139,11 +139,11 @@ public:
 
 	float const& Z() const { return dimensions[2]; }
 
-	static constexpr unsigned int size() { return _countof(dimensions); }
+	static constexpr unsigned int size() { return 3; }
 
 private:
 
-	float dimensions[3];
+	array<float, 3> dimensions;
 
 };
 
@@ -157,10 +157,67 @@ void VectorAddition(T& lhs, T const& rhs)
 }
 
 template<typename T>
+void VectorSubtraction(T& lhs, T const& rhs)
+{
+	for (unsigned int i = 0; i < T::size(); ++i)
+	{
+		lhs[i] -= rhs[i];
+	}
+}
+
+template<typename T>
 void VectorMultiply(T& lhs, T const& rhs)
 {
 	for (unsigned int i = 0; i < T::size(); ++i)
 	{
 		lhs[i] *= rhs[i];
 	}
+}
+
+template<typename T>
+void VectorScale(T& lhs, float const& scalor)
+{
+	for (unsigned int i = 0; i < T::size(); ++i)
+	{
+		lhs[i] *= scalor;
+	}
+}
+
+template<typename T>
+void VectorDivide(T& lhs, float const& divisor)
+{
+	assert(divisor != 0 && "Attempted to divide by 0 in VectorDivide()!");
+
+	for (unsigned int i = 0; i < T::size(); ++i)
+	{
+		lhs[i] /= divisor;
+	}
+}
+
+template<typename T>
+auto VectorLength(T const& lhs)
+{
+	auto sum = pow(lhs[0], 2.0f);
+
+	for (unsigned int i = 1; i < T::size(); ++i)
+	{
+		sum += pow(lhs[i], 2.0f);
+	}
+
+	return sum;
+}
+
+template<typename T>
+void VectorNormalize(T& lhs)
+{
+	float sum = 0;
+
+	for (unsigned int i = 0; i < T::size(); ++i)
+	{
+		sum += pow(lhs[i], 2.0f);
+	}
+
+	float divisor = VectorLength(lhs);
+
+	VectorDivide(lhs, divisor);
 }

@@ -30,6 +30,8 @@
 #include "Component/TextSprite.h"
 #include "Component/Button.h"
 #include "Component/AudioSource.h"
+#include "Component/Repulsor.h"
+#include "Component/Teleporter.h"
 
 #pragma region Game Mains
 
@@ -82,7 +84,7 @@ void MessagesManagement(HINSTANCE hInstance, int* runningFlag);
 
 void InitGame()
 {
-	JustPressStartMain();
+	//JustPressStartMain();
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -103,11 +105,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	int running = mainEngine->Init(hInstance);
 
 	//Add Systems to the Engine here.
-	mainEngine->Add(ECS<Sprite>::GetInstance());
 	mainEngine->Add(ECS<TextSprite>::GetInstance());
 	mainEngine->Add(ECS<Physics>::GetInstance());
 	mainEngine->Add(ECS<Button>::GetInstance());
 	mainEngine->Add(ECS<AudioSource>::GetInstance());
+	mainEngine->Add(ECS<Repulsor>::GetInstance());
+	mainEngine->Add(ECS<Teleporter>::GetInstance());
+
+	mainEngine->Add(ECS<Sprite>::GetInstance());
 
 	auto previousTime = std::chrono::high_resolution_clock::now();
 

@@ -34,6 +34,8 @@ public:
 
 	Sprite(unsigned int const& FrameIndex, float const& Alpha, Texture const* const& Texture, Mesh const* const& Mesh);
 
+	void Clone(Sprite const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
+
 	void Serialize(string* Output) const;
 
 	void Load(Stream* openStream);
@@ -49,6 +51,8 @@ public:
 	void SetFrameIndex(unsigned int const& Index) { frameIndex = Index; }
 
 	void SetMesh(Mesh const* const& Mesh) { mesh = Mesh; }
+
+	void SetTexture(Texture const* const& Texture) { texture = Texture; }
 
 #pragma endregion
 

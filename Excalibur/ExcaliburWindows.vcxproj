@@ -206,7 +206,9 @@
     <ClInclude Include="Source\Core\Component\AudioSource.h" />
     <ClInclude Include="Source\Core\Component\Button.h" />
     <ClInclude Include="Source\Core\Component\Physics.h" />
+    <ClInclude Include="Source\Core\Component\Repulsor.h" />
     <ClInclude Include="Source\Core\Component\Sprite.h" />
+    <ClInclude Include="Source\Core\Component\Teleporter.h" />
     <ClInclude Include="Source\Core\Component\TextSprite.h" />
     <ClInclude Include="Source\Core\Enums\Direction.h" />
     <ClInclude Include="Source\Core\Enums\DrawMode.h" />
@@ -261,7 +263,9 @@
     <ClCompile Include="Source\Core\Component\Component.cpp" />
     <ClCompile Include="Source\Core\Component\ComponentID.cpp" />
     <ClCompile Include="Source\Core\Component\Physics.cpp" />
+    <ClCompile Include="Source\Core\Component\Repulsor.cpp" />
     <ClCompile Include="Source\Core\Component\Sprite.cpp" />
+    <ClCompile Include="Source\Core\Component\Teleporter.cpp" />
     <ClCompile Include="Source\Core\Component\TextSprite.cpp" />
     <ClCompile Include="Source\Core\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\ECS.cpp" />

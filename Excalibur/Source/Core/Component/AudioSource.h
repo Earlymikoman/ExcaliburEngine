@@ -34,6 +34,8 @@ public:
 
 	AudioSource(Channel const& Channel, Sound const* const& Sound);
 
+	void Clone(AudioSource const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
+
 	void Serialize(string* Output) const;
 
 	void Load(Stream* openStream);

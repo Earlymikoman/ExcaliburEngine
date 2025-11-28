@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   Button.h
+ * @file   Repulsor.h
  * @brief  .
  * 
  * Project: Excalibur
@@ -20,29 +20,22 @@
 
 #include "Component.h"
 
-#include "../../../../SharedDependencies/Source/Stream.h"
-#include "../FunctionLibrary.h"
+#include "../../../../SharedDependencies/Source/Vector.h"
 
-#include <string>
-#include <functional>
-
-using std::string;
-using std::function;
-
+class Stream;
 class Message;
+class Transform;
 
 #pragma region Pre-Build Component Read Area
-class Button : public ComponentWithType<cButton>
+class Repulsor : public ComponentWithType<cRepulsor>
 {
 public:
 
-	Button() = default;
+	Repulsor() = default;
 
-	Button(string const& FunctionName);
+	Repulsor(Vector<4> const& Bounds, Object* const& RepulsionObject, float const& RepulsionStrength);
 
-	Button(string const& FunctionName, function<void(Button*)> const& Function);
-
-	void Clone(Button const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
+	void Clone(Repulsor const& rhs) { Object* Parent = parent; *this = rhs; parent = Parent; }
 
 	void Serialize(string* Output) const;
 
@@ -54,9 +47,26 @@ public:
 
 	void HandleMessage(Message* message);
 
+#pragma region Getters
+
+	
+
+#pragma endregion
+
+#pragma region Setters
+
+	
+
+#pragma endregion
+
 private:
 
-	NamedFunction<void, Button*> function;
+	Vector<4> bounds;
+
+	Object* repulsionObject;
+
+	float repulsionStrength;
 
 };
 #pragma endregion Pre-Build Component Read Area
+

@@ -34,7 +34,11 @@ Sprite::Sprite(unsigned int const& FrameIndex, float const& Alpha, Texture const
 
 void Sprite::Render()
 {
+	//cout << endl << endl << "rendered" << this << endl;
+
 	Transform transform = parent->GetAdjustedTransform();
+
+	cout << transform.GetPosition().X() << " " << transform.GetPosition().Y() << endl << endl/* << endl*/;
 
 	Engine::SetPosition(transform.GetPosition());
 	Engine::SetScale(transform.GetScale());

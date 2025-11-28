@@ -29,6 +29,8 @@
 #include "Component/TextSprite.h"
 #include "Component/Button.h"
 #include "Component/AudioSource.h"
+#include "Component/Repulsor.h"
+#include "Component/Teleporter.h"
 #include "ECS.h"
 #include "Enums/EnumMappings.h"
 #include "Engine.h"
@@ -162,6 +164,7 @@ void Object::Load(Stream* openStream)
 		AddChild(tempObject);
 	}
 }
+
 void Transform::Load(Stream* openStream)
 {
 	string garbage;
@@ -177,11 +180,27 @@ void Transform::Load(Stream* openStream)
 	openStream->ReadToken(&garbage);
 	openStream->ReadType(&scale);
 }
+
 void Physics::Load(Stream* openStream)
 {
-	openStream;
-	string fieldName = string();
+	string garbage;
+
+	openStream->ReadToken(&garbage);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadType(&acceleration);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadType(&velocity);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadToken(&garbage);
+	openStream->ReadType(&rotationalVelocity);
+
+	openStream->ReadToken(&garbage);
+	openStream->ReadType(&drag);
 }
+
 void Sprite::Load(Stream* openStream)
 {
 	string buffer;
@@ -206,6 +225,7 @@ void Sprite::Load(Stream* openStream)
 	openStream->ReadToken(&buffer);
 	mesh = ResourceLibrary<Mesh>::Get(buffer);
 }
+
 void TextSprite::Load(Stream* openStream)
 {
 	string buffer;
@@ -226,6 +246,7 @@ void TextSprite::Load(Stream* openStream)
 	openStream->ReadFormatString(&text);
 	//text = buffer;
 }
+
 void Button::Load(Stream* openStream)
 {
 	string buffer;
@@ -237,6 +258,7 @@ void Button::Load(Stream* openStream)
 	openStream->ReadToken(&buffer);
 	function = NamedFunction<void, Button*>(buffer, FunctionLibrary<void, Button*>::Get(buffer));
 }
+
 void AudioSource::Load(Stream* openStream)
 {
 	string buffer;
@@ -252,6 +274,16 @@ void AudioSource::Load(Stream* openStream)
 	sound = ResourceLibrary<Sound>::Get(buffer);
 }
 
+void Repulsor::Load(Stream* openStream)
+{
+	openStream;
+}
+
+void Teleporter::Load(Stream* openStream)
+{
+	openStream;
+}
+
 #pragma region Pre-Build Editing Area
 
 static unordered_map LoadingFunctionMap = unordered_map<string, void(*)(Object*, Stream*, const UpdateLayer&)>
@@ -259,6 +291,7 @@ static unordered_map LoadingFunctionMap = unordered_map<string, void(*)(Object*,
 	{ "AudioSource", &Load<AudioSource> }
 	, { "Button", &Load<Button> }
 	, { "Physics", &Load<Physics> }
+	, { "Repulsor", &Load<Repulsor> }
 	, { "Sprite", &Load<Sprite> }
 	, { "TextSprite", &Load<TextSprite> }
 	, { "Transform", &Load<Transform> }

@@ -76,6 +76,8 @@ public:
 
 	static Object* CreateObject();
 
+	void Deallocate();
+
 	Transform* const& GetTransform() const { return transform; }
 
 	Transform GetAdjustedTransform() const;
@@ -84,7 +86,7 @@ public:
 
 	std::vector<Object*> const& GetChildren() const { return children; }
 	
-	std::vector<ComponentID*> const& GetComponents() const;
+	auto const& GetComponents() const { return components; }
 
 	template<typename T>
 	T* AddComponent(T const& ComponentToAdd, UpdateLayer Layer = UpdateLayer::SLOWEST)
@@ -119,9 +121,19 @@ public:
 		components.erase(componentSystemInstance);
 	}
 
+	JiveIndex const& GetEngineIndex() { return engineIndex; }
+
 	void AddChild(Object* const& ObjectToAdd) { children.push_back(ObjectToAdd); ObjectToAdd->SetParent(this); }
 
+	void RemoveChild(Object* const& Child);
+
+	//void ClearChildren() { children.clear(); }
+
 	void SetParent(Object* const& Parent) { parent = Parent; }
+
+	void SetEngineIndex(JiveIndex const& index) { engineIndex = index; }
+
+	void SetAdjustedPosition(Vector<3> const& point);
 
 private:
 
@@ -133,5 +145,7 @@ private:
 
 	vector<Object*> children;
 	unordered_map<VirtualECS*, ComponentAccessInfo> components;
+
+	JiveIndex engineIndex;
 
 };
